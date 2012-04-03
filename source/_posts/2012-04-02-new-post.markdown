@@ -1,0 +1,51 @@
+---
+layout: post
+title: "new-post"
+date: 2012-04-02 21:58
+comments: true
+categories: 
+---
+
+Here is my post!
+
+
+and something here.
+
+```ruby
+def hello
+  puts 'hello'
+end
+```
+[A cool link](http://www.google.com) 
+
+Text is here and this is text, [A cool link](http://www.google.com/2). This is *emphasized* and this is __bold__. sadfasdfsa
+
+<!-- more -->
+
+``` ruby app/models/ruby_thing.rb
+class RubyThing < ActiveRecord::Base
+  # This is a really really reallly really really reallly really really reallly really really reallly really really reallly really really reallly long comment.
+  has_many :blogs
+  
+  def self.greet
+    puts 'Hello World!'
+  end
+
+  # Open up a world of hurt.
+  def initialize(name)
+    @name = name
+    RubyThing.greet
+    a = [1, 2, 3, 4]
+    b = {:a => 32, :c => 27}
+    c = {a: 6, b: 7}
+    
+    1.upto(10) do |i|
+      "i + 1th time"
+    end
+    
+  end
+end
+```
+
+
+
