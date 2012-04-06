@@ -1,17 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: javascript | ls -al ~mitchcrowe]]></title>
+  <title><![CDATA[Category: javascript | Mitch Crowe]]></title>
   <link href="http://blog.mitchcrowe.com/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://blog.mitchcrowe.com/"/>
-  <updated>2012-04-06T11:22:18-07:00</updated>
+  <updated>2012-04-06T12:00:30-07:00</updated>
   <id>http://blog.mitchcrowe.com/</id>
   <author>
     <name><![CDATA[Mitch Crowe]]></name>
-    
+    <email><![CDATA[crowe.mitch@gmail.com]]></email>
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Soulmate.js—A jQuery front-end to the soulmate auto-suggestion gem]]></title>
+    <link href="http://blog.mitchcrowe.com/blog/2011/12/20/soulmate-dot-js-a-jquery-front-end-to-the-soulmate-auto-suggestion-gem/"/>
+    <updated>2011-12-20T12:51:00-08:00</updated>
+    <id>http://blog.mitchcrowe.com/blog/2011/12/20/soulmate-dot-js-a-jquery-front-end-to-the-soulmate-auto-suggestion-gem</id>
+    <content type="html"><![CDATA[<p><a href="https://github.com/seatgeek/soulmate">Soulmate</a> is an excellent auto-suggestion gem built for speed on sinatra and redis. I recently switched a project's auto-suggestion engine to it from sphinx, and saw 200ms average response times drop to 10ms. Aside from speed, another huge boon was being able to completely separate the auto-suggestion engine from the main app. This allows it to get overwhelmed with a huge number of requests without significantly affecting the user's experience. (Decoupling is good!).</p>
+
+<!-- more -->
+
+
+<p>Soulmate provides a very nice http interface and leaves the front-end design up to the developer. I wrote <a href="https://github.com/mcrowe/soulmate.js">soulmate.js</a>, a jQuery front-end to soulmate. Together, they provide lightning-fast plug-n-play auto-suggestion. Soulmate.js boasts the following features:</p>
+
+<ul>
+<li><strong>Well tested:</strong> Ridiculous spec coverage using Jasmine.</li>
+<li><strong>Clean markup:</strong> Renders a clean and semantic markup structure that is easy to style.</li>
+<li><strong>Speed:</strong> Minimizes requests by maintaining a list of queries with no suggestions. No additional requests are made when a user keeps typing on an empty query.</li>
+<li><strong>Cross-domain compatible:</strong> Uses jsonp to accommodate backends on separate domain (which is a good practice since it allows the auto-suggest system to get overwhelmed without affecting the main site).</li>
+<li><strong>Customizable behaviour:</strong> Customized rendering of suggestions through a callback that provides all stored data for that suggestion. Customized suggestion selection behaviour through a callback.</li>
+<li><strong>Adaptable:</strong> A modular, object-oriented design, that is meant to be very easy to adapt and modify.</li>
+</ul>
+
+
+<p>For more information, check out the README and specs on <a href="https://github.com/mcrowe/soulmate.js">github</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Filtering Pop-ups From Embedded Scripts]]></title>
+    <link href="http://blog.mitchcrowe.com/blog/2011/11/07/filtering-pop-ups-from-embedded-scripts/"/>
+    <updated>2011-11-07T12:05:00-08:00</updated>
+    <id>http://blog.mitchcrowe.com/blog/2011/11/07/filtering-pop-ups-from-embedded-scripts</id>
+    <content type="html"><![CDATA[<p>Recently I had a problem where a creative embedded on my site was periodically opening pop-ups on my users without my consent. The agency's team assured me this shouldn't be happening, but claimed they couldn't re-create the issue. In truth, they just sell too many third-party ads to verify all of them.</p>
+
+<!-- more -->
+
+
+<p>Since these ads are breaking their agreement, I felt it was in my right to block them for my users. I decided to create a filter in my pages to block embedded scripts from opening unwanted windows. I couldn't find anything good about this on the internets, so I thought I'd share the solution I came up with.</p>
+
+<p>My first stab at the problem was to override the <code>window.open</code> function (which the offending script would be calling). I made it silently do nothing when called, by redefining it as a stub:</p>
+
+<script src="https://gist.github.com/1440000.js?file=popup_blocker.js.coffee"></script>
+
+
+<p>These few characters did the trick. Any code trying to open a pop-up fires the new <code>window.open</code> and happily continues on its way, unaware that no window was actually open.</p>
+
+<p>I was happy with this solution until, one day, I tried including <a href="http://www.addthis.com">addthis</a> on the site. The addthis widget opens a pop-up for many of its providers, and my hack, of course, dutifully blocks it every time! Alas, it seems a site sometimes needs to be able to open pop-ups for the powers of good...</p>
+
+<p>We need to be able to filter requested pop-ups: allowing the ones we trust, and blocking the rest. So, I created a whitelist filter on <code>window.open</code> by first saving an aliased copy, and then redefining it to a new method that conditionally calls the copy.</p>
+
+<script src="https://gist.github.com/1440000.js?file=popup_filter.js.coffee"></script>
+
+
+<p>Now, when <code>window.open('http://www.addthis.com/...', ...)</code> gets called, the regular expression matches and the aliased method gets called just as the addthis widget expects. However, when <code>window.open('http://nefarious-ad-site/...', ...)</code> gets called, the request is nicely eaten up.</p>
+
+<p>Cool! We can now manually filter pop-ups from opening on our site based on the requested url.</p>
+
+<p><strong>Footnotes</strong></p>
+
+<ul>
+<li><p>These code samples are coffeescript, of course, not javascript. I'm sure you can use your creativity to compile them in your head if you need to.</p></li>
+<li><p>Both these techniques were tested and work in IE8+, Firefox 3.6+, Chrome, and Safari. Other browsers, no idea.</p></li>
+<li><p>This technique will not work out of the box to filter pop-ups opened from scripts loaded within iframes. You may be able to modify this to handle that case.</p></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[I was framed!]]></title>

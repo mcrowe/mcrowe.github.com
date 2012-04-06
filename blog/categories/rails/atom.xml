@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: rails, | ls -al ~mitchcrowe]]></title>
-  <link href="http://blog.mitchcrowe.com/blog/categories/rails-/atom.xml" rel="self"/>
+  <title><![CDATA[Category: rails | Mitch Crowe]]></title>
+  <link href="http://blog.mitchcrowe.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://blog.mitchcrowe.com/"/>
-  <updated>2012-04-06T11:22:18-07:00</updated>
+  <updated>2012-04-06T12:00:30-07:00</updated>
   <id>http://blog.mitchcrowe.com/</id>
   <author>
     <name><![CDATA[Mitch Crowe]]></name>
-    
+    <email><![CDATA[crowe.mitch@gmail.com]]></email>
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
