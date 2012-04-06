@@ -4,7 +4,7 @@
   <title><![CDATA[Mitch Crowe's Blog]]></title>
   <link href="http://mcrowe.github.com/atom.xml" rel="self"/>
   <link href="http://mcrowe.github.com/"/>
-  <updated>2012-04-02T22:07:12-07:00</updated>
+  <updated>2012-04-06T10:25:14-07:00</updated>
   <id>http://mcrowe.github.com/</id>
   <author>
     <name><![CDATA[Mitch Crowe]]></name>
@@ -31,9 +31,16 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><a href="http://www.google.com">A cool link</a></p>
+
+<p>Text is here and this is text, <a href="http://www.google.com/2">A cool link</a>. This is <em>emphasized</em> and this is <strong>bold</strong>. sadfasdfsa</p>
+
+<!-- more -->
 
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+
+
+<figure class='code'><figcaption><span>app/models/ruby_thing.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
@@ -49,7 +56,14 @@
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">RubyThing</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="c1"># This is a really really reallly really really reallly really really reallly really really reallly really really reallly really really reallly long comment.</span>
 </span><span class='line'>  <span class="n">has_many</span> <span class="ss">:blogs</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">greet</span>
@@ -63,6 +77,11 @@
 </span><span class='line'>    <span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="o">]</span>
 </span><span class='line'>    <span class="n">b</span> <span class="o">=</span> <span class="p">{</span><span class="ss">:a</span> <span class="o">=&gt;</span> <span class="mi">32</span><span class="p">,</span> <span class="ss">:c</span> <span class="o">=&gt;</span> <span class="mi">27</span><span class="p">}</span>
 </span><span class='line'>    <span class="n">c</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="mi">7</span><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="mi">1</span><span class="o">.</span><span class="n">upto</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>      <span class="s2">&quot;i + 1th time&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
 </span><span class='line'>  <span class="k">end</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
