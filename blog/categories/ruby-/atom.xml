@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ruby, | ls -al ~mitchcrowe]]></title>
+  <link href="http://blog.mitchcrowe.com/blog/categories/ruby-/atom.xml" rel="self"/>
+  <link href="http://blog.mitchcrowe.com/"/>
+  <updated>2012-04-06T11:22:18-07:00</updated>
+  <id>http://blog.mitchcrowe.com/</id>
+  <author>
+    <name><![CDATA[Mitch Crowe]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Easy Rails debugging in IE with a Mac and VirtualBox]]></title>
+    <link href="http://blog.mitchcrowe.com/blog/2011/12/13/easy-rails-debugging-in-ie-with-a-mac-and-virtualbox/"/>
+    <updated>2011-12-13T11:37:00-08:00</updated>
+    <id>http://blog.mitchcrowe.com/blog/2011/12/13/easy-rails-debugging-in-ie-with-a-mac-and-virtualbox</id>
+    <content type="html"><![CDATA[<p>Internet Explorer is still more than 60% of my traffic, and I need to do a lot of feature testing on it. A lot of folks push up to a staging server then point a virtual machine to that server. This is too slow for me. Especially when I'm hunting down and fixing particularly pernicious css bugs, there is a lot of tweaking involved, and re-deploying for each test just doesn't cut it.</p>
+
+<!-- more -->
+
+
+<p>Instead, I setup VirtualBox to connect to my development server so I don't need to re-deploy to see changes in IE. It makes debugging in IE almost as easy as in other browsers!</p>
+
+<p>Assuming you have, or can, setup VirtualBox with XP or Windows 7 (if not there are a thousand tutorials on google), the rest takes a couple of seconds. VirtualBox's default setting will allow it to connect to your Mac's localhost through <code>http://10.0.2.2</code>. Forwarding ports is messier, so instead we can run rails on port 80. This requires running your server as a super user. Assuming you're using rvm, run:</p>
+
+<pre><code>rvmsudo rails server -p 80
+</code></pre>
+
+<p>and verify you can hit the server at <code>http://localhost</code> on your Mac, and <code>http://10.0.2.2</code> in VirtualBox. You're good to go!</p>
+
+<p>While you're at it, I'd recommend installing <a href="http://utilu.com/IECollection/">IE Collection</a>, so that you can easily test on all versions of IE on the same box.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rubynu—A scaffold generator for ruby projects]]></title>
+    <link href="http://blog.mitchcrowe.com/blog/2011/12/12/rubynu-a-scaffold-generator-for-ruby-projects/"/>
+    <updated>2011-12-12T12:17:00-08:00</updated>
+    <id>http://blog.mitchcrowe.com/blog/2011/12/12/rubynu-a-scaffold-generator-for-ruby-projects</id>
+    <content type="html"><![CDATA[<p>Creating my preferred scaffolding for new ruby projects by hand has gotten old. Sure, there are tools out there like bundler's <code>bundle gem</code> to do this for you, but they aren't flexible enough to meet everybody's preferences. I want something as flexible as my tastes are fickle, something I can change the template to on a whim.</p>
+
+<!-- more -->
+
+
+<p>So, I built <code>rubynu</code>. It's a Thor script that leans heavily on Thor's directory templating abilities. Thor is amazing for this kind of generator: instead of building everything programatically, you can define an entire directory template&mdash;using erb templating for file contents, file names, and even directory structure. This kind of template makes it stupid easy to add new files, or to do any number of structural changes to it without touching the script itself. By Thor's Hammer!</p>
+
+<p>Currently, <code>rubynu</code> builds a project with the standard structure:</p>
+
+<pre><code>bin/
+lib/
+  %app_name%.rb
+  %app_name%/
+spec/
+Gemfile
+README.markdown 
+</code></pre>
+
+<p>It also sets up rspec, with a <code>spec_helper</code>, <code>.rspec</code>, and a pending spec; RVM with an <code>.rvmrc</code>; git with a <code>.gitignore</code>; as well as some useful scaffolded code.</p>
+
+<p>For usage, installation instructions, and to view the source, check out <a href="https://github.com/mcrowe/Rubynu">rubynu on github</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>

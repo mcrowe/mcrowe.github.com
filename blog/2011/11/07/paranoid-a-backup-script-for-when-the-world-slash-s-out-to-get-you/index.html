@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Blog Archive - ls -al ~mitchcrowe</title>
+  <title>Paranoid - A backup script for when the world's out to get you - ls -al ~mitchcrowe</title>
   <meta name="author" content="Mitch Crowe">
 
   
-  <meta name="description" content="Blog Archive 2011 Soulmate.js—A jQuery front-end to the soulmate auto-suggestion gem
-Dec 20 2011 posted in coffeescript,, jQuery, javascript, Easy &hellip;">
+  <meta name="description" content="When I&#8217;ve put a ton of effort into a personal project, I tend to get paranoid that I&#8217;ll somehow find a way to toast it. I know, I know, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@ Dec 20 2011 posted in coffeescript,, jQuery, javascript, Easy &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.mitchcrowe.com/blog/archives">
+  <link rel="canonical" href="http://blog.mitchcrowe.com/blog/2011/11/07/paranoid-a-backup-script-for-when-the-world-slash-s-out-to-get-you">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -65,111 +64,105 @@ Dec 20 2011 posted in coffeescript,, jQuery, javascript, Easy &hellip;">
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Blog Archive</h1>
+    
+      <h1 class="entry-title">Paranoid - a Backup Script for When the World's Out to Get You</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-07T16:28:00-08:00" pubdate data-updated="true">Nov 7<span>th</span>, 2011</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives">
 
 
+<div class="entry-content"><p>When I&#8217;ve put a ton of effort into a personal project, I tend to get paranoid that I&#8217;ll somehow find a way to toast it. I know, I know, git, github, and time machine already have my back. Sometimes that&#8217;s just not enough, though, and I find myself periodically making manual copies of important projects to a backup directory. Whether I need it or not, having hardcopy snapshots just makes me feel better.</p>
 
-  
-  <h2>2011</h2>
-
-<article>
-  
-<h1><a href="/blog/2011/12/20/soulmate-dot-js-a-jquery-front-end-to-the-soulmate-auto-suggestion-gem/">Soulmate.js—A jQuery front-end to the soulmate auto-suggestion gem</a></h1>
-<time datetime="2011-12-20T12:51:00-08:00" pubdate><span class='month'>Dec</span> <span class='day'>20</span> <span class='year'>2011</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/coffeescript-/'>coffeescript,</a>, <a class='category' href='/blog/categories/jquery/'>jQuery</a>, <a class='category' href='/blog/categories/javascript-/'>javascript,</a></span>
-</footer>
+<!-- more -->
 
 
-</article>
+<p>So I wrote paranoid, a Thor script for those paranoid but lazy coders like me. Sure, we could use a one-liner <code>cp -rf</code>, or <code>rsync</code> command, but there are a few niceties that paranoid gives you:</p>
+
+<ul>
+<li><p>Timestamped backups, so they are never written over, and you can easily revisit a snapshot of the project at any given time.</p></li>
+<li><p>You can specify files to exclude from a backup on a project-by-project basis by modifying a <code>.backupignore</code> file. This allows you to ignore <code>.git</code> and <code>.bundle</code> directories as well as any project specific files such as large data dumps that you might not want copied over and over.</p></li>
+</ul>
 
 
+<h3>Install paranoid</h3>
 
-<article>
-  
-<h1><a href="/blog/2011/12/13/easy-rails-debugging-in-ie-with-a-mac-and-virtualbox/">Easy Rails debugging in IE with a Mac and VirtualBox</a></h1>
-<time datetime="2011-12-13T11:37:00-08:00" pubdate><span class='month'>Dec</span> <span class='day'>13</span> <span class='year'>2011</span></time>
+<p>Paranoid is a <a href="https://github.com/wycats/thor">Thor</a> script, and you will have to install Thor first. Then, clone the repository and run: <code>thor install paranoid.thor</code></p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/ie-/'>IE,</a>, <a class='category' href='/blog/categories/debugging/'>debugging</a>, <a class='category' href='/blog/categories/rails-/'>rails,</a>, <a class='category' href='/blog/categories/ruby-/'>ruby,</a></span>
-</footer>
+<h3>Make your projects paranoid</h3>
 
+<p>In your project root directory, run: <code>thor paranoid init</code>
+This creates a default <code>.backupignore</code> file. This file defines patterns for files you don&#8217;t want to backup in this project. You can now add or remove patterns as you wish.</p>
 
-</article>
+<h3>Backup a paranoid project</h3>
 
-
-
-<article>
-  
-<h1><a href="/blog/2011/12/12/rubynu-a-scaffold-generator-for-ruby-projects/">Rubynu—A scaffold generator for ruby projects</a></h1>
-<time datetime="2011-12-12T12:17:00-08:00" pubdate><span class='month'>Dec</span> <span class='day'>12</span> <span class='year'>2011</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/ruby-/'>ruby,</a>, <a class='category' href='/blog/categories/thor/'>thor</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2011/11/07/paranoid-a-backup-script-for-when-the-world-slash-s-out-to-get-you/">Paranoid - A backup script for when the world&#8217;s out to get you</a></h1>
-<time datetime="2011-11-07T16:28:00-08:00" pubdate><span class='month'>Nov</span> <span class='day'>07</span> <span class='year'>2011</span></time>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2011/11/07/filtering-pop-ups-from-embedded-scripts/">Filtering Pop-ups From Embedded Scripts</a></h1>
-<time datetime="2011-11-07T12:05:00-08:00" pubdate><span class='month'>Nov</span> <span class='day'>07</span> <span class='year'>2011</span></time>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2011/11/06/i-was-framed/">I was framed!</a></h1>
-<time datetime="2011-11-06T11:56:00-08:00" pubdate><span class='month'>Nov</span> <span class='day'>06</span> <span class='year'>2011</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/javascript/'>javascript</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/blog/2011/09/14/javascript-templates-to-the-rescue/">Javascript templates to the rescue</a></h1>
-<time datetime="2011-09-14T18:05:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>14</span> <span class='year'>2011</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/categories/javascript/'>javascript</a></span>
-</footer>
-
-
-</article>
-
+<p>In your project root directory, run: <code>thor paranoid backup</code>
+This rsyncs your project to the <code>~/.paranoid</code> directory, ignoring any files matching the patterns in the project&#8217;s <code>.backupignore</code> file.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Mitch Crowe</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-07T16:28:00-08:00" pubdate data-updated="true">Nov 7<span>th</span>, 2011</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.mitchcrowe.com/blog/2011/11/07/paranoid-a-backup-script-for-when-the-world-slash-s-out-to-get-you/" data-via="" data-counturl="http://blog.mitchcrowe.com/blog/2011/11/07/paranoid-a-backup-script-for-when-the-world-slash-s-out-to-get-you/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/11/07/filtering-pop-ups-from-embedded-scripts/" title="Previous Post: Filtering Pop-ups From Embedded Scripts">&laquo; Filtering Pop-ups From Embedded Scripts</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/12/12/rubynu-a-scaffold-generator-for-ruby-projects/" title="Next Post: Rubynu—A scaffold generator for ruby projects">Rubynu—A scaffold generator for ruby projects &raquo;</a>
+      
+    </p>
+  </footer>
 </article>
 
 </div>

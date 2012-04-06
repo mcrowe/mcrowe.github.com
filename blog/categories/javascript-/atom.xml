@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: javascript, | ls -al ~mitchcrowe]]></title>
+  <link href="http://blog.mitchcrowe.com/blog/categories/javascript-/atom.xml" rel="self"/>
+  <link href="http://blog.mitchcrowe.com/"/>
+  <updated>2012-04-06T11:22:18-07:00</updated>
+  <id>http://blog.mitchcrowe.com/</id>
+  <author>
+    <name><![CDATA[Mitch Crowe]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Soulmate.js—A jQuery front-end to the soulmate auto-suggestion gem]]></title>
+    <link href="http://blog.mitchcrowe.com/blog/2011/12/20/soulmate-dot-js-a-jquery-front-end-to-the-soulmate-auto-suggestion-gem/"/>
+    <updated>2011-12-20T12:51:00-08:00</updated>
+    <id>http://blog.mitchcrowe.com/blog/2011/12/20/soulmate-dot-js-a-jquery-front-end-to-the-soulmate-auto-suggestion-gem</id>
+    <content type="html"><![CDATA[<p><a href="https://github.com/seatgeek/soulmate">Soulmate</a> is an excellent auto-suggestion gem built for speed on sinatra and redis. I recently switched a project's auto-suggestion engine to it from sphinx, and saw 200ms average response times drop to 10ms. Aside from speed, another huge boon was being able to completely separate the auto-suggestion engine from the main app. This allows it to get overwhelmed with a huge number of requests without significantly affecting the user's experience. (Decoupling is good!).</p>
+
+<!-- more -->
+
+
+<p>Soulmate provides a very nice http interface and leaves the front-end design up to the developer. I wrote <a href="https://github.com/mcrowe/soulmate.js">soulmate.js</a>, a jQuery front-end to soulmate. Together, they provide lightning-fast plug-n-play auto-suggestion. Soulmate.js boasts the following features:</p>
+
+<ul>
+<li><strong>Well tested:</strong> Ridiculous spec coverage using Jasmine.</li>
+<li><strong>Clean markup:</strong> Renders a clean and semantic markup structure that is easy to style.</li>
+<li><strong>Speed:</strong> Minimizes requests by maintaining a list of queries with no suggestions. No additional requests are made when a user keeps typing on an empty query.</li>
+<li><strong>Cross-domain compatible:</strong> Uses jsonp to accommodate backends on separate domain (which is a good practice since it allows the auto-suggest system to get overwhelmed without affecting the main site).</li>
+<li><strong>Customizable behaviour:</strong> Customized rendering of suggestions through a callback that provides all stored data for that suggestion. Customized suggestion selection behaviour through a callback.</li>
+<li><strong>Adaptable:</strong> A modular, object-oriented design, that is meant to be very easy to adapt and modify.</li>
+</ul>
+
+
+<p>For more information, check out the README and specs on <a href="https://github.com/mcrowe/soulmate.js">github</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>
