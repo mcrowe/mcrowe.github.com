@@ -64,7 +64,8 @@ github_show_profile_link: true
 github_skip_forks: true
 
 # Twitter
-twitter_user: mitch_crowe
+# mitch_crowe
+twitter_user: 
 twitter_tweet_count: 3
 twitter_show_replies: false
 twitter_follow_button: true
@@ -93,7 +94,7 @@ disqus_short_name: mitchcrowe
 disqus_show_comment_count: true
 
 # Google Analytics
-google_analytics_tracking_id:
+google_analytics_tracking_id: UA-23952700-4
 
 # Facebook Like
 facebook_like: true
