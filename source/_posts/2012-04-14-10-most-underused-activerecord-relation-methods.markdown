@@ -6,7 +6,7 @@ comments: true
 categories: ruby rails
 ---
 
-Knee-deep in `ActiveRecord::Relation` code yesterday, I found some interesting nuggets that I had either had never heard of, or have seen far too rarely. Here I've gathered my top ten most underused relation methods from that list, for your reading delight.
+Knee-deep in `ActiveRecord::Relation` code yesterday, I found some interesting nuggets that I had either never heard of, or have seen far too rarely. Here I've gathered my top ten most underused relation methods from that list, for your reading delight.
 
 <!-- more -->
 
