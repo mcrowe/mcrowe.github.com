@@ -52,7 +52,7 @@ end
 
 ### 7. `none`
 
-Likewise, sometimes you want an `ActiveRecord::Relation` that contains no objects. Returning an empty array is usually not a great idea if the consumer of your API is expecting a relation object. Instead, you can use none.
+Likewise, sometimes you want an `ActiveRecord::Relation` that contains no objects. Returning an empty array is usually not a great idea if the consumer of your API is expecting a relation object. Instead, you can use `none`.
 
 ```ruby
 def filter(filter_name)
@@ -70,7 +70,7 @@ end
 ```
 ### 5. `to_sql` and `explain`
 
-`ActiveRecord` is great, but it doesn't always generating the queries you think it will. Jump in the console and run these commands on the relation you're building, to make sure it maps to a smart query, or that it's using the indices you lovingly crafted:
+`ActiveRecord` is great, but it doesn't always generate the queries you think it will. Jump in the console and run these commands on the relation you're building, to make sure it maps to a smart query, or that it's using the indices you lovingly crafted:
 
 ```ruby
 Library.joins(:book).to_sql
@@ -79,7 +79,7 @@ Libray.joins(:book).explain
 # => Database explain for the query.
 ```
 
-### 4. `find_by`
+### 4. `find_by` *(rails 4 only)*
 
 Rails code tends to be littered with lines like:
 
@@ -94,6 +94,8 @@ Book.find_by(:title => 'Three Day Road', :author => 'Joseph Boyden')
 ```
 
 which does exactly the same thing.
+
+_NOTE:_  You have to be seriously living on the edge to use `find_by` right now. It will be available in rails 4, but not 3.
 
 ### 3. `scoping`
 
