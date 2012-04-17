@@ -4,7 +4,7 @@
   <title><![CDATA[Mitch Crowe]]></title>
   <link href="http://blog.mitchcrowe.com/atom.xml" rel="self"/>
   <link href="http://blog.mitchcrowe.com/"/>
-  <updated>2012-04-06T13:50:23-07:00</updated>
+  <updated>2012-04-16T20:12:58-07:00</updated>
   <id>http://blog.mitchcrowe.com/</id>
   <author>
     <name><![CDATA[Mitch Crowe]]></name>
@@ -12,6 +12,193 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The 10 Most Underused ActiveRecord::Relation Methods]]></title>
+    <link href="http://blog.mitchcrowe.com/blog/2012/04/14/10-uncommon-but-useful-activerecord-relation-methods/"/>
+    <updated>2012-04-14T22:51:00-07:00</updated>
+    <id>http://blog.mitchcrowe.com/blog/2012/04/14/10-uncommon-but-useful-activerecord-relation-methods</id>
+    <content type="html"><![CDATA[<p>Knee-deep in <code>ActiveRecord::Relation</code> code yesterday, I found some interesting nuggets that I had either had never heard of, or have seen far too rarely. Here I&#8217;ve gathered my top ten most underused relation methods from that list, for your reading delight.</p>
+
+<!-- more -->
+
+
+<h3>10. <code>first_or_create</code> with a block</h3>
+
+<p><code>first_or_create</code> is very familiar:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Book</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s1">&#39;Tale of Two Cities&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first_or_create</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and does exactly what it says. Often, though, you want to find a record with certain attributes, or create one with those <em>and</em> additional attributes. To do this succinctly, you can supply a block to <code>first_or_create</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Book</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s1">&#39;Tale of Two Cities&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first_or_create</span> <span class="k">do</span> <span class="o">|</span><span class="n">book</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">book</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="s1">&#39;Charles Dickens&#39;</span>
+</span><span class='line'>  <span class="n">book</span><span class="o">.</span><span class="n">published_year</span> <span class="o">=</span> <span class="mi">1859</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>9. <code>first_or_initialize</code></h3>
+
+<p>If you don&#8217;t want to save the record yet, you can use <code>first_or_initialize</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Book</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s1">&#39;Tale of Two Cities&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first_or_initialize</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>8. <code>scoped</code></h3>
+
+<p>Sometimes you want an <code>ActiveRecord::Relation</code> representing all the records of a class. You can easily generate one using the <code>scoped</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">query</span><span class="o">.</span><span class="n">blank?</span>
+</span><span class='line'>    <span class="n">scoped</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">q</span> <span class="o">=</span> <span class="s2">&quot;%</span><span class="si">#{</span><span class="n">query</span><span class="si">}</span><span class="s2">%&quot;</span>
+</span><span class='line'>    <span class="n">where</span><span class="p">(</span><span class="s2">&quot;title like ? or author like ?&quot;</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>7. <code>none</code></h3>
+
+<p>Likewise, sometimes you want an <code>ActiveRecord::Relation</code> that contains no objects. Returning an empty array is usually not a great idea if the consumer of your API is expecting a relation object. Instead, you can use none.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="n">filter_name</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">case</span> <span class="n">filter_name</span>
+</span><span class='line'>  <span class="k">when</span> <span class="ss">:all</span>
+</span><span class='line'>    <span class="n">scoped</span>
+</span><span class='line'>  <span class="k">when</span> <span class="ss">:published</span>
+</span><span class='line'>    <span class="n">where</span><span class="p">(</span><span class="ss">:published</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">when</span> <span class="ss">:unpublished</span>
+</span><span class='line'>    <span class="n">where</span><span class="p">(</span><span class="ss">:published</span> <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">none</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>5. <code>to_sql</code> and <code>explain</code></h3>
+
+<p><code>ActiveRecord</code> is great, but it doesn&#8217;t always generating the queries you think it will. Jump in the console and run these commands on the relation you&#8217;re building, to make sure it maps to a smart query, or that it&#8217;s using the indices you lovingly crafted:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Library</span><span class="o">.</span><span class="n">joins</span><span class="p">(</span><span class="ss">:book</span><span class="p">)</span><span class="o">.</span><span class="n">to_sql</span>
+</span><span class='line'><span class="c1"># =&gt; SQL query for you database.</span>
+</span><span class='line'><span class="no">Libray</span><span class="o">.</span><span class="n">joins</span><span class="p">(</span><span class="ss">:book</span><span class="p">)</span><span class="o">.</span><span class="n">explain</span>
+</span><span class='line'><span class="c1"># =&gt; Database explain for the query.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>4. <code>find_by</code></h3>
+
+<p>Rails code tends to be littered with lines like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Book</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s1">&#39;Three Day Road&#39;</span><span class="p">,</span> <span class="ss">:author</span> <span class="o">=&gt;</span> <span class="s1">&#39;Joseph Boyden&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Instead, you can use the shortcut method <code>find_by</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Book</span><span class="o">.</span><span class="n">find_by</span><span class="p">(</span><span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s1">&#39;Three Day Road&#39;</span><span class="p">,</span> <span class="ss">:author</span> <span class="o">=&gt;</span> <span class="s1">&#39;Joseph Boyden&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>which does exactly the same thing.</p>
+
+<h3>3. <code>scoping</code></h3>
+
+<p>You can &#8220;scope&#8221; methods on a class to a particular relation. Consider the following example from the Rails documentation:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Comment</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">:post_id</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">scoping</span> <span class="k">do</span>
+</span><span class='line'>  <span class="no">Comment</span><span class="o">.</span><span class="n">first</span> <span class="c1"># SELECT * FROM comments WHERE post_id = 1</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is all kinds of useful.</p>
+
+<h3>2. <code>pluck</code></h3>
+
+<p>Want an array of column values for certain records? I&#8217;ve seen this too many times:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">published_book_titles</span> <span class="o">=</span> <span class="no">Book</span><span class="o">.</span><span class="n">published</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:title</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or, even worse:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">published_book_titles</span> <span class="o">=</span> <span class="no">Book</span><span class="o">.</span><span class="n">published</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:title</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Instead, use pluck:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">published_book_titles</span> <span class="o">=</span> <span class="no">Book</span><span class="o">.</span><span class="n">published</span><span class="o">.</span><span class="n">pluck</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>1. <code>merge</code></h3>
+
+<p>I couldn&#8217;t live without this jewel, but it&#8217;s strangely un-documented in the source, and not mentioned in any guide or book I&#8217;ve seen. Among other uses, it allows to do a join, and filter by a named scope on the joined model:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Account</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">with_unread_messages</span>
+</span><span class='line'>    <span class="n">joins</span><span class="p">(</span><span class="ss">:messages</span><span class="p">)</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span> <span class="no">Message</span><span class="o">.</span><span class="n">with_unread_messages</span> <span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Soulmate.js—A jQuery front-end to the soulmate auto-suggestion gem]]></title>

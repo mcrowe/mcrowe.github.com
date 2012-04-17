@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Mitch Crowe]]></title>
   <link href="http://blog.mitchcrowe.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://blog.mitchcrowe.com/"/>
-  <updated>2012-04-06T13:50:23-07:00</updated>
+  <updated>2012-04-16T20:12:58-07:00</updated>
   <id>http://blog.mitchcrowe.com/</id>
   <author>
     <name><![CDATA[Mitch Crowe]]></name>
@@ -12,6 +12,174 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The 10 Most Underused ActiveRecord::Relation Methods]]></title>
+    <link href="http://blog.mitchcrowe.com/blog/2012/04/14/10-uncommon-but-useful-activerecord-relation-methods/"/>
+    <updated>2012-04-14T22:51:00-07:00</updated>
+    <id>http://blog.mitchcrowe.com/blog/2012/04/14/10-uncommon-but-useful-activerecord-relation-methods</id>
+    <content type="html"><![CDATA[<p>Knee-deep in <code>ActiveRecord::Relation</code> code yesterday, I found some interesting nuggets that I had either had never heard of, or have seen far too rarely. Here I've gathered my top ten most underused relation methods from that list, for your reading delight.</p>
+
+<!-- more -->
+
+
+<h3>10. <code>first_or_create</code> with a block</h3>
+
+<p><code>first_or_create</code> is very familiar:</p>
+
+<p><code>ruby
+Book.where(:title =&gt; 'Tale of Two Cities').first_or_create
+</code></p>
+
+<p>and does exactly what it says. Often, though, you want to find a record with certain attributes, or create one with those <em>and</em> additional attributes. To do this succinctly, you can supply a block to <code>first_or_create</code>:</p>
+
+<p><code>ruby
+Book.where(:title =&gt; 'Tale of Two Cities').first_or_create do |book|
+  book.author = 'Charles Dickens'
+  book.published_year = 1859
+end
+</code></p>
+
+<h3>9. <code>first_or_initialize</code></h3>
+
+<p>If you don't want to save the record yet, you can use <code>first_or_initialize</code>:</p>
+
+<p><code>ruby
+Book.where(:title =&gt; 'Tale of Two Cities').first_or_initialize
+</code></p>
+
+<h3>8. <code>scoped</code></h3>
+
+<p>Sometimes you want an <code>ActiveRecord::Relation</code> representing all the records of a class. You can easily generate one using the <code>scoped</code> method:</p>
+
+<p>```ruby
+def search(query)
+  if query.blank?</p>
+
+<pre><code>scoped
+</code></pre>
+
+<p>  else</p>
+
+<pre><code>q = "%#{query}%"
+where("title like ? or author like ?", q, q)
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<h3>7. <code>none</code></h3>
+
+<p>Likewise, sometimes you want an <code>ActiveRecord::Relation</code> that contains no objects. Returning an empty array is usually not a great idea if the consumer of your API is expecting a relation object. Instead, you can use none.</p>
+
+<p>```ruby
+def filter(filter_name)
+  case filter_name
+  when :all</p>
+
+<pre><code>scoped
+</code></pre>
+
+<p>  when :published</p>
+
+<pre><code>where(:published =&gt; true)
+</code></pre>
+
+<p>  when :unpublished</p>
+
+<pre><code>where(:published =&gt; false)
+</code></pre>
+
+<p>  else</p>
+
+<pre><code>none
+</code></pre>
+
+<p>  end
+end
+```</p>
+
+<h3>5. <code>to_sql</code> and <code>explain</code></h3>
+
+<p><code>ActiveRecord</code> is great, but it doesn't always generating the queries you think it will. Jump in the console and run these commands on the relation you're building, to make sure it maps to a smart query, or that it's using the indices you lovingly crafted:</p>
+
+<p>```ruby
+Library.joins(:book).to_sql</p>
+
+<h1>=> SQL query for you database.</h1>
+
+<p>Libray.joins(:book).explain</p>
+
+<h1>=> Database explain for the query.</h1>
+
+<p>```</p>
+
+<h3>4. <code>find_by</code></h3>
+
+<p>Rails code tends to be littered with lines like:</p>
+
+<p><code>ruby
+Book.where(:title =&gt; 'Three Day Road', :author =&gt; 'Joseph Boyden').first
+</code></p>
+
+<p>Instead, you can use the shortcut method <code>find_by</code>:</p>
+
+<p><code>ruby
+Book.find_by(:title =&gt; 'Three Day Road', :author =&gt; 'Joseph Boyden')
+</code></p>
+
+<p>which does exactly the same thing.</p>
+
+<h3>3. <code>scoping</code></h3>
+
+<p>You can "scope" methods on a class to a particular relation. Consider the following example from the Rails documentation:</p>
+
+<p><code>ruby
+Comment.where(:post_id =&gt; 1).scoping do
+  Comment.first # SELECT * FROM comments WHERE post_id = 1
+end
+</code></p>
+
+<p>This is all kinds of useful.</p>
+
+<h3>2. <code>pluck</code></h3>
+
+<p>Want an array of column values for certain records? I've seen this too many times:</p>
+
+<p><code>ruby
+published_book_titles = Book.published.select(:title).map(&amp;:title)
+</code></p>
+
+<p>Or, even worse:</p>
+
+<p><code>ruby
+published_book_titles = Book.published.map(&amp;:title)
+</code></p>
+
+<p>Instead, use pluck:</p>
+
+<p><code>ruby
+published_book_titles = Book.published.pluck(:title)
+</code></p>
+
+<h3>1. <code>merge</code></h3>
+
+<p>I couldn't live without this jewel, but it's strangely un-documented in the source, and not mentioned in any guide or book I've seen. Among other uses, it allows to do a join, and filter by a named scope on the joined model:</p>
+
+<p>```ruby
+class Account &lt; ActiveRecord::Base
+  ...
+  def with_unread_messages</p>
+
+<pre><code>joins(:messages).merge( Message.with_unread_messages )
+</code></pre>
+
+<p>  end
+end
+```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Easy Rails debugging in IE with a Mac and VirtualBox]]></title>
