@@ -1,1 +1,559 @@
-My Octopress Page is coming soon &hellip;
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Mitch Crowe</title>
+  <meta name="author" content="Mitch Crowe">
+
+  
+  <meta name="description" content="Knee-deep in ActiveRecord::Relation code yesterday, I found some interesting nuggets that I had either had never heard of, or have seen far too &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.mitchcrowe.com">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="http://feeds.feedburner.com/mitchcrowe" rel="alternate" title="Mitch Crowe" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link <link href='http://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-23952700-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Mitch Crowe</a></h1>
+  
+    <h2>On Ruby, Rails, Javascript, and all that good stuff.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/mitchcrowe" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.mitchcrowe.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/04/14/10-uncommon-but-useful-activerecord-relation-methods/">The 10 Most Underused ActiveRecord::Relation Methods</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-14T22:51:00-07:00" pubdate data-updated="true">Apr 14<span>th</span>, 2012</time>
+        
+         | <a href="/blog/2012/04/14/10-uncommon-but-useful-activerecord-relation-methods/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Knee-deep in <code>ActiveRecord::Relation</code> code yesterday, I found some interesting nuggets that I had either had never heard of, or have seen far too rarely. Here I&#8217;ve gathered my top ten most underused relation methods from that list, for your reading delight.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2012/04/14/10-uncommon-but-useful-activerecord-relation-methods/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/12/20/soulmate-dot-js-a-jquery-front-end-to-the-soulmate-auto-suggestion-gem/">Soulmate.js—A jQuery Front-end to the Soulmate Auto-suggestion Gem</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-20T12:51:00-08:00" pubdate data-updated="true">Dec 20<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/12/20/soulmate-dot-js-a-jquery-front-end-to-the-soulmate-auto-suggestion-gem/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://github.com/seatgeek/soulmate">Soulmate</a> is an excellent auto-suggestion gem built for speed on sinatra and redis. I recently switched a project&#8217;s auto-suggestion engine to it from sphinx, and saw 200ms average response times drop to 10ms. Aside from speed, another huge boon was being able to completely separate the auto-suggestion engine from the main app. This allows it to get overwhelmed with a huge number of requests without significantly affecting the user&#8217;s experience. (Decoupling is good!).</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/12/20/soulmate-dot-js-a-jquery-front-end-to-the-soulmate-auto-suggestion-gem/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/12/13/easy-rails-debugging-in-ie-with-a-mac-and-virtualbox/">Easy Rails Debugging in IE With a Mac and VirtualBox</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-13T11:37:00-08:00" pubdate data-updated="true">Dec 13<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/12/13/easy-rails-debugging-in-ie-with-a-mac-and-virtualbox/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Internet Explorer is still more than 60% of my traffic, and I need to do a lot of feature testing on it. A lot of folks push up to a staging server then point a virtual machine to that server. This is too slow for me. Especially when I&#8217;m hunting down and fixing particularly pernicious css bugs, there is a lot of tweaking involved, and re-deploying for each test just doesn&#8217;t cut it.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/12/13/easy-rails-debugging-in-ie-with-a-mac-and-virtualbox/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/12/12/rubynu-a-scaffold-generator-for-ruby-projects/">Rubynu—A Scaffold Generator for Ruby Projects</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-12T12:17:00-08:00" pubdate data-updated="true">Dec 12<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/12/12/rubynu-a-scaffold-generator-for-ruby-projects/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Creating my preferred scaffolding for new ruby projects by hand has gotten old. Sure, there are tools out there like bundler&#8217;s <code>bundle gem</code> to do this for you, but they aren&#8217;t flexible enough to meet everybody&#8217;s preferences. I want something as flexible as my tastes are fickle, something I can change the template to on a whim.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/12/12/rubynu-a-scaffold-generator-for-ruby-projects/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/11/07/paranoid-a-backup-script-for-when-the-world-slash-s-out-to-get-you/">Paranoid - a Backup Script for When the World&#8217;s Out to Get You</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-07T16:28:00-08:00" pubdate data-updated="true">Nov 7<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/11/07/paranoid-a-backup-script-for-when-the-world-slash-s-out-to-get-you/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>When I&#8217;ve put a ton of effort into a personal project, I tend to get paranoid that I&#8217;ll somehow find a way to toast it. I know, I know, git, github, and time machine already have my back. Sometimes that&#8217;s just not enough, though, and I find myself periodically making manual copies of important projects to a backup directory. Whether I need it or not, having hardcopy snapshots just makes me feel better.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/11/07/paranoid-a-backup-script-for-when-the-world-slash-s-out-to-get-you/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/11/07/filtering-pop-ups-from-embedded-scripts/">Filtering Pop-ups From Embedded Scripts</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-07T12:05:00-08:00" pubdate data-updated="true">Nov 7<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/11/07/filtering-pop-ups-from-embedded-scripts/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Recently I had a problem where a creative embedded on my site was periodically opening pop-ups on my users without my consent. The agency&#8217;s team assured me this shouldn&#8217;t be happening, but claimed they couldn&#8217;t re-create the issue. In truth, they just sell too many third-party ads to verify all of them.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/11/07/filtering-pop-ups-from-embedded-scripts/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/11/06/i-was-framed/">I Was Framed!</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-06T11:56:00-08:00" pubdate data-updated="true">Nov 6<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/11/06/i-was-framed/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Patrolling the SERPs for a website I was working on one day, I came across something odd: An exact duplicate of my site at a different domain, startlingly high in the rankings. Here is its source:</p>
+
+<script src="https://gist.github.com/1439471.js?file=iframe_wrapper.html"></script>
+
+
+
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/11/06/i-was-framed/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/09/14/javascript-templates-to-the-rescue/">Javascript Templates to the Rescue</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-14T18:05:00-07:00" pubdate data-updated="true">Sep 14<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/09/14/javascript-templates-to-the-rescue/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I&#8217;m a huge fan of ajax requests which simply return json, letting the client decide what it wants to do with the data. Formatting that data into html client-side, however, has always felt ugly as sin to me. So, we revert to rendering the html on the server and sending that html as an ajax response. This model is fine for simple pages, especially when all we want to do is display data asynchronously. Once we want to interact with this new data, do calculations on it, manipulate it further, things start to get ugly. In the end, I strongly believe that when the client requests data via ajax, it should get data, and not display logic, back.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2011/09/14/javascript-templates-to-the-rescue/">Read on &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p>
+    I am Mitch Crowe, a Ruby, Rails, Javascript, etc., developer and all-around web nerd based out of Vancouver, Canada. I work for <a href="http://www.unbounce.com">Unbounce.com</a> and develop awesome web applications as a freelancer.
+  </p>
+  <p>
+    Shoot me an email at <br/><em>[last].[first]@gmail.com</em>.    
+  </p>
+  <p>
+    Check out my CV on <a href="http://www.linkedin.com/pub/mitch-crowe/27/999/a60">LinkedIn</a>.
+  </p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/04/14/10-uncommon-but-useful-activerecord-relation-methods/">The 10 Most Underused ActiveRecord::Relation Methods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/12/20/soulmate-dot-js-a-jquery-front-end-to-the-soulmate-auto-suggestion-gem/">Soulmate.js—A jQuery front-end to the soulmate auto-suggestion gem</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/12/13/easy-rails-debugging-in-ie-with-a-mac-and-virtualbox/">Easy Rails debugging in IE with a Mac and VirtualBox</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/mcrowe">@mcrowe</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'mcrowe',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Mitch Crowe -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'mitchcrowe';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,493 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>The 10 Most Underused ActiveRecord::Relation Methods - Mitch Crowe</title>
+  <meta name="author" content="Mitch Crowe">
+
+  
+  <meta name="description" content="Knee-deep in ActiveRecord::Relation code yesterday, I found some interesting nuggets that I had either had never heard of, or have seen far too &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.mitchcrowe.com/blog/2012/04/14/10-uncommon-but-useful-activerecord-relation-methods">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="http://feeds.feedburner.com/mitchcrowe" rel="alternate" title="Mitch Crowe" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link <link href='http://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-23952700-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Mitch Crowe</a></h1>
+  
+    <h2>On Ruby, Rails, Javascript, and all that good stuff.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/mitchcrowe" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.mitchcrowe.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">The 10 Most Underused ActiveRecord::Relation Methods</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-14T22:51:00-07:00" pubdate data-updated="true">Apr 14<span>th</span>, 2012</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Knee-deep in <code>ActiveRecord::Relation</code> code yesterday, I found some interesting nuggets that I had either had never heard of, or have seen far too rarely. Here I&#8217;ve gathered my top ten most underused relation methods from that list, for your reading delight.</p>
+
+<!-- more -->
+
+
+<h3>10. <code>first_or_create</code> with a block</h3>
+
+<p><code>first_or_create</code> is very familiar:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Book</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s1">&#39;Tale of Two Cities&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first_or_create</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and does exactly what it says. Often, though, you want to find a record with certain attributes, or create one with those <em>and</em> additional attributes. To do this succinctly, you can supply a block to <code>first_or_create</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Book</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s1">&#39;Tale of Two Cities&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first_or_create</span> <span class="k">do</span> <span class="o">|</span><span class="n">book</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">book</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="s1">&#39;Charles Dickens&#39;</span>
+</span><span class='line'>  <span class="n">book</span><span class="o">.</span><span class="n">published_year</span> <span class="o">=</span> <span class="mi">1859</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>9. <code>first_or_initialize</code></h3>
+
+<p>If you don&#8217;t want to save the record yet, you can use <code>first_or_initialize</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Book</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s1">&#39;Tale of Two Cities&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first_or_initialize</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>8. <code>scoped</code></h3>
+
+<p>Sometimes you want an <code>ActiveRecord::Relation</code> representing all the records of a class. You can easily generate one using the <code>scoped</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">query</span><span class="o">.</span><span class="n">blank?</span>
+</span><span class='line'>    <span class="n">scoped</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">q</span> <span class="o">=</span> <span class="s2">&quot;%</span><span class="si">#{</span><span class="n">query</span><span class="si">}</span><span class="s2">%&quot;</span>
+</span><span class='line'>    <span class="n">where</span><span class="p">(</span><span class="s2">&quot;title like ? or author like ?&quot;</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>7. <code>none</code></h3>
+
+<p>Likewise, sometimes you want an <code>ActiveRecord::Relation</code> that contains no objects. Returning an empty array is usually not a great idea if the consumer of your API is expecting a relation object. Instead, you can use <code>none</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">filter</span><span class="p">(</span><span class="n">filter_name</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">case</span> <span class="n">filter_name</span>
+</span><span class='line'>  <span class="k">when</span> <span class="ss">:all</span>
+</span><span class='line'>    <span class="n">scoped</span>
+</span><span class='line'>  <span class="k">when</span> <span class="ss">:published</span>
+</span><span class='line'>    <span class="n">where</span><span class="p">(</span><span class="ss">:published</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">when</span> <span class="ss">:unpublished</span>
+</span><span class='line'>    <span class="n">where</span><span class="p">(</span><span class="ss">:published</span> <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">none</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>6. <code>find_each</code></h3>
+
+<p>If you want to iterate over thousands of records, you probably don&#8217;t want to use <code>each</code>. It will execute a single query to get all the records, and then instantiate them all into memory. If you have enough memory to spare, go for it. Otherwise, this is a nice way to freeze up your Rails app! <code>find_each</code> instead finds a batch of records at a time (1000 by default) and yields those one at a time, so that you don&#8217;t have them all in memory at the same time.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Book</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">:published</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span><span class="o">.</span><span class="n">find_each</span> <span class="k">do</span> <span class="o">|</span><span class="n">book</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Do something with </span><span class="si">#{</span><span class="n">book</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2"> here!&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that you can&#8217;t specify the order of records yielded by <code>find_each</code>. If you specify one on your relation, it will simply be ignored.</p>
+
+<h3>5. <code>to_sql</code> and <code>explain</code></h3>
+
+<p><code>ActiveRecord</code> is great, but it doesn&#8217;t always generate the queries you think it will. Jump in the console and run these commands on the relation you&#8217;re building, to make sure it maps to a smart query, or that it&#8217;s using the indices you lovingly crafted:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Library</span><span class="o">.</span><span class="n">joins</span><span class="p">(</span><span class="ss">:book</span><span class="p">)</span><span class="o">.</span><span class="n">to_sql</span>
+</span><span class='line'><span class="c1"># =&gt; SQL query for you database.</span>
+</span><span class='line'><span class="no">Libray</span><span class="o">.</span><span class="n">joins</span><span class="p">(</span><span class="ss">:book</span><span class="p">)</span><span class="o">.</span><span class="n">explain</span>
+</span><span class='line'><span class="c1"># =&gt; Database explain for the query.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>4. <code>find_by</code> <em>(rails 4 only)</em></h3>
+
+<p>Rails code tends to be littered with lines like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Book</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s1">&#39;Three Day Road&#39;</span><span class="p">,</span> <span class="ss">:author</span> <span class="o">=&gt;</span> <span class="s1">&#39;Joseph Boyden&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Instead, you can use the shortcut method <code>find_by</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Book</span><span class="o">.</span><span class="n">find_by</span><span class="p">(</span><span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s1">&#39;Three Day Road&#39;</span><span class="p">,</span> <span class="ss">:author</span> <span class="o">=&gt;</span> <span class="s1">&#39;Joseph Boyden&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>which does exactly the same thing.</p>
+
+<p><strong>Note:</strong>  You have to be seriously living on the edge to use <code>find_by</code> right now. It will be available in rails 4, but not 3.</p>
+
+<h3>3. <code>scoping</code></h3>
+
+<p>You can &#8220;scope&#8221; methods on a class to a particular relation. Consider the following example from the Rails documentation:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Comment</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">:post_id</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">scoping</span> <span class="k">do</span>
+</span><span class='line'>  <span class="no">Comment</span><span class="o">.</span><span class="n">first</span> <span class="c1"># SELECT * FROM comments WHERE post_id = 1</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is all kinds of useful.</p>
+
+<h3>2. <code>pluck</code></h3>
+
+<p>Want an array of column values for certain records? I&#8217;ve seen this too many times:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">published_book_titles</span> <span class="o">=</span> <span class="no">Book</span><span class="o">.</span><span class="n">published</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:title</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Or, even worse:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">published_book_titles</span> <span class="o">=</span> <span class="no">Book</span><span class="o">.</span><span class="n">published</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:title</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Instead, use pluck:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">published_book_titles</span> <span class="o">=</span> <span class="no">Book</span><span class="o">.</span><span class="n">published</span><span class="o">.</span><span class="n">pluck</span><span class="p">(</span><span class="ss">:title</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>1. <code>merge</code></h3>
+
+<p>I couldn&#8217;t live without this jewel, but it&#8217;s strangely un-documented in the source, and not mentioned in any guide or book I&#8217;ve seen. Among other uses, it allows to do a join, and filter by a named scope on the joined model:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Account</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">with_unread_messages</span>
+</span><span class='line'>    <span class="n">joins</span><span class="p">(</span><span class="ss">:messages</span><span class="p">)</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span> <span class="no">Message</span><span class="o">.</span><span class="n">with_unread_messages</span> <span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Mitch Crowe</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-04-14T22:51:00-07:00" pubdate data-updated="true">Apr 14<span>th</span>, 2012</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/rails/'>rails</a>, <a class='category' href='/blog/categories/ruby/'>ruby</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.mitchcrowe.com/blog/2012/04/14/10-uncommon-but-useful-activerecord-relation-methods/" data-via="" data-counturl="http://blog.mitchcrowe.com/blog/2012/04/14/10-uncommon-but-useful-activerecord-relation-methods/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/12/20/soulmate-dot-js-a-jquery-front-end-to-the-soulmate-auto-suggestion-gem/" title="Previous Post: Soulmate.js—A jQuery front-end to the soulmate auto-suggestion gem">&laquo; Soulmate.js—A jQuery front-end to the soulmate auto-suggestion gem</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p>
+    I am Mitch Crowe, a Ruby, Rails, Javascript, etc., developer and all-around web nerd based out of Vancouver, Canada. I work for <a href="http://www.unbounce.com">Unbounce.com</a> and develop awesome web applications as a freelancer.
+  </p>
+  <p>
+    Shoot me an email at <br/><em>[last].[first]@gmail.com</em>.    
+  </p>
+  <p>
+    Check out my CV on <a href="http://www.linkedin.com/pub/mitch-crowe/27/999/a60">LinkedIn</a>.
+  </p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/04/14/10-uncommon-but-useful-activerecord-relation-methods/">The 10 Most Underused ActiveRecord::Relation Methods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/12/20/soulmate-dot-js-a-jquery-front-end-to-the-soulmate-auto-suggestion-gem/">Soulmate.js—A jQuery front-end to the soulmate auto-suggestion gem</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/12/13/easy-rails-debugging-in-ie-with-a-mac-and-virtualbox/">Easy Rails debugging in IE with a Mac and VirtualBox</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/mcrowe">@mcrowe</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'mcrowe',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Mitch Crowe -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'mitchcrowe';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.mitchcrowe.com/blog/2012/04/14/10-uncommon-but-useful-activerecord-relation-methods/';
+        var disqus_url = 'http://blog.mitchcrowe.com/blog/2012/04/14/10-uncommon-but-useful-activerecord-relation-methods/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
