@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Mitch Crowe]]></title>
   <link href="http://blog.mitchcrowe.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://blog.mitchcrowe.com/"/>
-  <updated>2012-04-16T20:29:07-07:00</updated>
+  <updated>2012-04-16T20:35:41-07:00</updated>
   <id>http://blog.mitchcrowe.com/</id>
   <author>
     <name><![CDATA[Mitch Crowe]]></name>
@@ -18,7 +18,7 @@
     <link href="http://blog.mitchcrowe.com/blog/2012/04/14/10-most-underused-activerecord-relation-methods/"/>
     <updated>2012-04-14T22:51:00-07:00</updated>
     <id>http://blog.mitchcrowe.com/blog/2012/04/14/10-most-underused-activerecord-relation-methods</id>
-    <content type="html"><![CDATA[<p>Knee-deep in <code>ActiveRecord::Relation</code> code yesterday, I found some interesting nuggets that I had either had never heard of, or have seen far too rarely. Here I've gathered my top ten most underused relation methods from that list, for your reading delight.</p>
+    <content type="html"><![CDATA[<p>Knee-deep in <code>ActiveRecord::Relation</code> code yesterday, I found some interesting nuggets that I had either never heard of, or have seen far too rarely. Here I've gathered my top ten most underused relation methods from that list, for your reading delight.</p>
 
 <!-- more -->
 
