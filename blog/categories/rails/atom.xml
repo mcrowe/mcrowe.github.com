@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | Mitch Crowe]]></title>
   <link href="http://blog.mitchcrowe.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://blog.mitchcrowe.com/"/>
-  <updated>2012-04-17T12:14:16-07:00</updated>
+  <updated>2012-04-17T12:32:25-07:00</updated>
   <id>http://blog.mitchcrowe.com/</id>
   <author>
     <name><![CDATA[Mitch Crowe]]></name>
@@ -69,7 +69,7 @@ where("title like ? or author like ?", q, q)
 end
 ```</p>
 
-<h3>7. <code>none</code></h3>
+<h3>7. <code>none</code> <em>(rails 4 only)</em></h3>
 
 <p>Likewise, sometimes you want an <code>ActiveRecord::Relation</code> that contains no objects. Returning an empty array is usually not a great idea if the consumer of your API is expecting a relation object. Instead, you can use <code>none</code>.</p>
 
@@ -99,6 +99,8 @@ def filter(filter_name)
 <p>  end
 end
 ```</p>
+
+<p><strong>Note:</strong>  You have to be seriously living on the edge to use <code>none</code> right now. It will be available in rails 4, but not 3. It is easy to write your own in the meantime, though, checkout this <a href="http://stackoverflow.com/questions/4877931/how-to-return-an-empty-activerecord-relation">stack overflow thread</a>.</p>
 
 <h3>6. <code>find_each</code></h3>
 
