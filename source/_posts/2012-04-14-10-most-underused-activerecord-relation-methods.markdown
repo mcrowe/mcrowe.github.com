@@ -50,7 +50,7 @@ def search(query)
 end
 ```
 
-### 7. `none`
+### 7. `none` *(rails 4 only)*
 
 Likewise, sometimes you want an `ActiveRecord::Relation` that contains no objects. Returning an empty array is usually not a great idea if the consumer of your API is expecting a relation object. Instead, you can use `none`.
 
@@ -68,6 +68,8 @@ def filter(filter_name)
   end
 end
 ```
+
+**Note:**  You have to be seriously living on the edge to use `none` right now. It will be available in rails 4, but not 3. It is easy to write your own in the meantime, though, checkout this [stack overflow thread](http://stackoverflow.com/questions/4877931/how-to-return-an-empty-activerecord-relation).
 
 ### 6. `find_each`
 
