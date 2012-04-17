@@ -68,6 +68,19 @@ def filter(filter_name)
   end
 end
 ```
+
+### 6. `find_each`
+
+If you want to iterate over thousands of records, you probably don't want to use `each`. It will execute a single query to get all the records, and then instantiate them all into memory. If you have enough memory to spare, go for it. Otherwise, this is a nice way to freeze up your Rails app! `find_each` instead finds a batch of records at a time (1000 by default) and yields those one at a time, so that you don't have them all in memory at the same time.
+
+```ruby
+Book.where(:published => true).find_each do |book|
+	puts "Do something with #{book.title} here!"
+end
+```
+
+Note that you can't specify the order of records yielded by `find_each`. If you specify one on your relation, it will simply be ignored.
+
 ### 5. `to_sql` and `explain`
 
 `ActiveRecord` is great, but it doesn't always generate the queries you think it will. Jump in the console and run these commands on the relation you're building, to make sure it maps to a smart query, or that it's using the indices you lovingly crafted:
@@ -95,7 +108,7 @@ Book.find_by(:title => 'Three Day Road', :author => 'Joseph Boyden')
 
 which does exactly the same thing.
 
-_NOTE:_  You have to be seriously living on the edge to use `find_by` right now. It will be available in rails 4, but not 3.
+**Note:**  You have to be seriously living on the edge to use `find_by` right now. It will be available in rails 4, but not 3.
 
 ### 3. `scoping`
 
