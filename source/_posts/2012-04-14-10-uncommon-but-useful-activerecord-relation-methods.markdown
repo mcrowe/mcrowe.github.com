@@ -108,7 +108,7 @@ Book.find_by(:title => 'Three Day Road', :author => 'Joseph Boyden')
 
 which does exactly the same thing.
 
-**Note:**  You have to be seriously living on the edge to use `find_by` right now. It will be available in rails 4, but not 3.
+**Note:**  You have to be seriously living on the edge to use `find_by` right now. It will be available in rails 4, but not 3. 
 
 ### 3. `scoping`
 
