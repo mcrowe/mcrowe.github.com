@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ruby, | Mitch Crowe]]></title>
+  <link href="http://blog.mitchcrowe.com/blog/categories/ruby-/atom.xml" rel="self"/>
+  <link href="http://blog.mitchcrowe.com/"/>
+  <updated>2012-04-16T20:58:45-07:00</updated>
+  <id>http://blog.mitchcrowe.com/</id>
+  <author>
+    <name><![CDATA[Mitch Crowe]]></name>
+    <email><![CDATA[crowe.mitch@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Roleable roles for Ruby on Rails]]></title>
+    <link href="http://blog.mitchcrowe.com/blog/2012/04/16/roleable-roles-for-ruby-on-rails/"/>
+    <updated>2012-04-16T20:45:00-07:00</updated>
+    <id>http://blog.mitchcrowe.com/blog/2012/04/16/roleable-roles-for-ruby-on-rails</id>
+    <content type="html"><![CDATA[<p>I was searching for just the right roles system to go with my <code>cancan</code> authorized, <code>ActiveRecord</code>-backed Rails app, and didn't find anything I liked. There are at least a dozen gems out there, but they were all either too simple, too complex, or too ugly for my liking. So, like any good open-sourcer, I wrote my own after my biased taste. And, <code>roleable</code> was born. Check out the <a href="https://github.com/mcrowe/roleable">project page</a>, and the <a href="http://rubydoc.info/gems/roleable/frames">API documentation</a>.</p>
+
+<p><code>roleable</code> is deliberately simple in it's implementation. It allows you to add user roles scoped to a instance of another model (e.g. make a use an author of a given article), or global roles (e.g. an admin role).</p>
+]]></content>
+  </entry>
+  
+</feed>
