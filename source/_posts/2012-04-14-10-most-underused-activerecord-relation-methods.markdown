@@ -152,7 +152,7 @@ I couldn't live without this jewel, but it's strangely un-documented in the sour
 class Account < ActiveRecord::Base
   ...
   def self.with_unread_messages
-    joins(:messages).merge( Message.with_unread_messages )
+    joins(:messages).merge( Message.unread )
   end
 end
 ```
