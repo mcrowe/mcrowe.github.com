@@ -50,9 +50,9 @@ def search(query)
 end
 ```
 
-### 7. `none`
+### 7. `none` *(rails 4 only)*
 
-Likewise, sometimes you want an `ActiveRecord::Relation` that contains no objects. Returning an empty array is usually not a great idea if the consumer of your API is expecting a relation object. Instead, you can use none.
+Likewise, sometimes you want an `ActiveRecord::Relation` that contains no objects. Returning an empty array is usually not a great idea if the consumer of your API is expecting a relation object. Instead, you can use `none`.
 
 ```ruby
 def filter(filter_name)
@@ -68,9 +68,24 @@ def filter(filter_name)
   end
 end
 ```
+
+**Note:**  You have to be seriously living on the edge to use `none` right now. It will be available in rails 4, but not 3. It is easy to write your own in the meantime, though, checkout this [stack overflow thread](http://stackoverflow.com/questions/4877931/how-to-return-an-empty-activerecord-relation).
+
+### 6. `find_each`
+
+If you want to iterate over thousands of records, you probably don't want to use `each`. It will execute a single query to get all the records, and then instantiate them all into memory. If you have enough memory to spare, go for it. Otherwise, this is a nice way to freeze up your Rails app! `find_each` instead finds a batch of records at a time (1000 by default) and yields those one at a time, so that you don't have them all in memory at the same time.
+
+```ruby
+Book.where(:published => true).find_each do |book|
+	puts "Do something with #{book.title} here!"
+end
+```
+
+Note that you can't specify the order of records yielded by `find_each`. If you specify one on your relation, it will simply be ignored.
+
 ### 5. `to_sql` and `explain`
 
-`ActiveRecord` is great, but it doesn't always generating the queries you think it will. Jump in the console and run these commands on the relation you're building, to make sure it maps to a smart query, or that it's using the indices you lovingly crafted:
+`ActiveRecord` is great, but it doesn't always generate the queries you think it will. Jump in the console and run these commands on the relation you're building, to make sure it maps to a smart query, or that it's using the indices you lovingly crafted:
 
 ```ruby
 Library.joins(:book).to_sql
@@ -79,7 +94,7 @@ Libray.joins(:book).explain
 # => Database explain for the query.
 ```
 
-### 4. `find_by`
+### 4. `find_by` *(rails 4 only)*
 
 Rails code tends to be littered with lines like:
 
@@ -94,6 +109,8 @@ Book.find_by(:title => 'Three Day Road', :author => 'Joseph Boyden')
 ```
 
 which does exactly the same thing.
+
+**Note:**  You have to be seriously living on the edge to use `find_by` right now. It will be available in rails 4, but not 3. 
 
 ### 3. `scoping`
 
