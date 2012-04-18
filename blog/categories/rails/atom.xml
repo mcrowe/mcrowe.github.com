@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | Mitch Crowe]]></title>
   <link href="http://blog.mitchcrowe.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://blog.mitchcrowe.com/"/>
-  <updated>2012-04-17T18:28:56-07:00</updated>
+  <updated>2012-04-18T08:19:59-07:00</updated>
   <id>http://blog.mitchcrowe.com/</id>
   <author>
     <name><![CDATA[Mitch Crowe]]></name>
@@ -200,7 +200,7 @@ published_book_titles = Book.published.pluck(:title)
 <p>```ruby
 class Account &lt; ActiveRecord::Base
   ...
-  def with_unread_messages</p>
+  def self.with_unread_messages</p>
 
 <pre><code>joins(:messages).merge( Message.with_unread_messages )
 </code></pre>
