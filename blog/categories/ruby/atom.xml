@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Mitch Crowe]]></title>
   <link href="http://blog.mitchcrowe.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://blog.mitchcrowe.com/"/>
-  <updated>2012-04-18T08:28:18-07:00</updated>
+  <updated>2012-04-18T08:36:01-07:00</updated>
   <id>http://blog.mitchcrowe.com/</id>
   <author>
     <name><![CDATA[Mitch Crowe]]></name>
@@ -191,7 +191,7 @@ class Account &lt; ActiveRecord::Base
   ...
   def self.with_unread_messages</p>
 
-<pre><code>joins(:messages).merge( Message.with_unread_messages )
+<pre><code>joins(:messages).merge( Message.unread )
 </code></pre>
 
 <p>  end
