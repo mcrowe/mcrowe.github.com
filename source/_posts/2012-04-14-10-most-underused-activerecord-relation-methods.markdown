@@ -146,7 +146,7 @@ published_book_titles = Book.published.pluck(:title)
 
 ### 1. `merge`
 
-I couldn't live without this jewel, but it's strangely un-documented in the source, and not mentioned in any guide or book I've seen. Among other uses, it allows to do a join, and filter by a named scope on the joined model:
+I couldn't live without this jewel, but it's strangely un-documented in the source, and not mentioned in any guide or book I've seen. Among other uses, it allows you to do a join, and filter by a named scope on the joined model:
 
 ```ruby
 class Account < ActiveRecord::Base
