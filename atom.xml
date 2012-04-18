@@ -4,7 +4,7 @@
   <title><![CDATA[Mitch Crowe]]></title>
   <link href="http://blog.mitchcrowe.com/atom.xml" rel="self"/>
   <link href="http://blog.mitchcrowe.com/"/>
-  <updated>2012-04-16T20:58:45-07:00</updated>
+  <updated>2012-04-17T18:28:56-07:00</updated>
   <id>http://blog.mitchcrowe.com/</id>
   <author>
     <name><![CDATA[Mitch Crowe]]></name>
@@ -88,9 +88,9 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>7. <code>none</code></h3>
+<h3>7. <code>none</code> <em>(rails 4 only)</em></h3>
 
-<p>Likewise, sometimes you want an <code>ActiveRecord::Relation</code> that contains no objects. Returning an empty array is usually not a great idea if the consumer of your API is expecting a relation object. Instead, you can use none.</p>
+<p>Likewise, sometimes you want an <code>ActiveRecord::Relation</code> that contains no objects. Returning an empty array is usually not a great idea if the consumer of your API is expecting a relation object. Instead, you can use <code>none</code>.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -119,9 +119,26 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
+<p><strong>Note:</strong>  You have to be seriously living on the edge to use <code>none</code> right now. It will be available in rails 4, but not 3. It is easy to write your own in the meantime, though, checkout this <a href="http://stackoverflow.com/questions/4877931/how-to-return-an-empty-activerecord-relation">stack overflow thread</a>.</p>
+
+<h3>6. <code>find_each</code></h3>
+
+<p>If you want to iterate over thousands of records, you probably don&#8217;t want to use <code>each</code>. It will execute a single query to get all the records, and then instantiate them all into memory. If you have enough memory to spare, go for it. Otherwise, this is a nice way to freeze up your Rails app! <code>find_each</code> instead finds a batch of records at a time (1000 by default) and yields those one at a time, so that you don&#8217;t have them all in memory at the same time.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Book</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">:published</span> <span class="o">=&gt;</span> <span class="kp">true</span><span class="p">)</span><span class="o">.</span><span class="n">find_each</span> <span class="k">do</span> <span class="o">|</span><span class="n">book</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Do something with </span><span class="si">#{</span><span class="n">book</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2"> here!&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that you can&#8217;t specify the order of records yielded by <code>find_each</code>. If you specify one on your relation, it will simply be ignored.</p>
+
 <h3>5. <code>to_sql</code> and <code>explain</code></h3>
 
-<p><code>ActiveRecord</code> is great, but it doesn&#8217;t always generating the queries you think it will. Jump in the console and run these commands on the relation you&#8217;re building, to make sure it maps to a smart query, or that it&#8217;s using the indices you lovingly crafted:</p>
+<p><code>ActiveRecord</code> is great, but it doesn&#8217;t always generate the queries you think it will. Jump in the console and run these commands on the relation you&#8217;re building, to make sure it maps to a smart query, or that it&#8217;s using the indices you lovingly crafted:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -134,7 +151,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<h3>4. <code>find_by</code></h3>
+<h3>4. <code>find_by</code> <em>(rails 4 only)</em></h3>
 
 <p>Rails code tends to be littered with lines like:</p>
 
@@ -151,6 +168,8 @@
 
 
 <p>which does exactly the same thing.</p>
+
+<p><strong>Note:</strong>  You have to be seriously living on the edge to use <code>find_by</code> right now. It will be available in rails 4, but not 3.</p>
 
 <h3>3. <code>scoping</code></h3>
 
