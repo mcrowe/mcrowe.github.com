@@ -151,6 +151,7 @@ I couldn't live without this jewel, but it's strangely un-documented in the sour
 ```ruby
 class Account < ActiveRecord::Base
   ...
+  # Returns all the accounts that have unread messages.
   def self.with_unread_messages
     joins(:messages).merge( Message.unread )
   end
