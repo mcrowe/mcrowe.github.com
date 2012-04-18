@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Mitch Crowe]]></title>
   <link href="http://blog.mitchcrowe.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://blog.mitchcrowe.com/"/>
-  <updated>2012-04-18T08:19:59-07:00</updated>
+  <updated>2012-04-18T08:28:18-07:00</updated>
   <id>http://blog.mitchcrowe.com/</id>
   <author>
     <name><![CDATA[Mitch Crowe]]></name>
@@ -184,7 +184,7 @@ published_book_titles = Book.published.pluck(:title)
 
 <h3>1. <code>merge</code></h3>
 
-<p>I couldn't live without this jewel, but it's strangely un-documented in the source, and not mentioned in any guide or book I've seen. Among other uses, it allows to do a join, and filter by a named scope on the joined model:</p>
+<p>I couldn't live without this jewel, but it's strangely un-documented in the source, and not mentioned in any guide or book I've seen. Among other uses, it allows you to do a join, and filter by a named scope on the joined model:</p>
 
 <p>```ruby
 class Account &lt; ActiveRecord::Base

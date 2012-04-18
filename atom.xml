@@ -4,7 +4,7 @@
   <title><![CDATA[Mitch Crowe]]></title>
   <link href="http://blog.mitchcrowe.com/atom.xml" rel="self"/>
   <link href="http://blog.mitchcrowe.com/"/>
-  <updated>2012-04-18T08:19:59-07:00</updated>
+  <updated>2012-04-18T08:28:18-07:00</updated>
   <id>http://blog.mitchcrowe.com/</id>
   <author>
     <name><![CDATA[Mitch Crowe]]></name>
@@ -211,7 +211,7 @@
 
 <h3>1. <code>merge</code></h3>
 
-<p>I couldn&#8217;t live without this jewel, but it&#8217;s strangely un-documented in the source, and not mentioned in any guide or book I&#8217;ve seen. Among other uses, it allows to do a join, and filter by a named scope on the joined model:</p>
+<p>I couldn&#8217;t live without this jewel, but it&#8217;s strangely un-documented in the source, and not mentioned in any guide or book I&#8217;ve seen. Among other uses, it allows you to do a join, and filter by a named scope on the joined model:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
