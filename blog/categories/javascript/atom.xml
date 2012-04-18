@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: javascript | Mitch Crowe]]></title>
+  <link href="http://blog.mitchcrowe.com/blog/categories/javascript/atom.xml" rel="self"/>
+  <link href="http://blog.mitchcrowe.com/"/>
+  <updated>2012-04-17T12:32:25-07:00</updated>
+  <id>http://blog.mitchcrowe.com/</id>
+  <author>
+    <name><![CDATA[Mitch Crowe]]></name>
+    <email><![CDATA[crowe.mitch@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Soulmate.js—A jQuery front-end to the soulmate auto-suggestion gem]]></title>
+    <link href="http://blog.mitchcrowe.com/blog/2011/12/20/soulmate-dot-js-a-jquery-front-end-to-the-soulmate-auto-suggestion-gem/"/>
+    <updated>2011-12-20T12:51:00-08:00</updated>
+    <id>http://blog.mitchcrowe.com/blog/2011/12/20/soulmate-dot-js-a-jquery-front-end-to-the-soulmate-auto-suggestion-gem</id>
+    <content type="html"><![CDATA[<p><a href="https://github.com/seatgeek/soulmate">Soulmate</a> is an excellent auto-suggestion gem built for speed on sinatra and redis. I recently switched a project's auto-suggestion engine to it from sphinx, and saw 200ms average response times drop to 10ms. Aside from speed, another huge boon was being able to completely separate the auto-suggestion engine from the main app. This allows it to get overwhelmed with a huge number of requests without significantly affecting the user's experience. (Decoupling is good!).</p>
+
+<!-- more -->
+
+
+<p>Soulmate provides a very nice http interface and leaves the front-end design up to the developer. I wrote <a href="https://github.com/mcrowe/soulmate.js">soulmate.js</a>, a jQuery front-end to soulmate. Together, they provide lightning-fast plug-n-play auto-suggestion. Soulmate.js boasts the following features:</p>
+
+<ul>
+<li><strong>Well tested:</strong> Ridiculous spec coverage using Jasmine.</li>
+<li><strong>Clean markup:</strong> Renders a clean and semantic markup structure that is easy to style.</li>
+<li><strong>Speed:</strong> Minimizes requests by maintaining a list of queries with no suggestions. No additional requests are made when a user keeps typing on an empty query.</li>
+<li><strong>Cross-domain compatible:</strong> Uses jsonp to accommodate backends on separate domain (which is a good practice since it allows the auto-suggest system to get overwhelmed without affecting the main site).</li>
+<li><strong>Customizable behaviour:</strong> Customized rendering of suggestions through a callback that provides all stored data for that suggestion. Customized suggestion selection behaviour through a callback.</li>
+<li><strong>Adaptable:</strong> A modular, object-oriented design, that is meant to be very easy to adapt and modify.</li>
+</ul>
+
+
+<p>For more information, check out the README and specs on <a href="https://github.com/mcrowe/soulmate.js">github</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Filtering Pop-ups From Embedded Scripts]]></title>
+    <link href="http://blog.mitchcrowe.com/blog/2011/11/07/filtering-pop-ups-from-embedded-scripts/"/>
+    <updated>2011-11-07T12:05:00-08:00</updated>
+    <id>http://blog.mitchcrowe.com/blog/2011/11/07/filtering-pop-ups-from-embedded-scripts</id>
+    <content type="html"><![CDATA[<p>Recently I had a problem where a creative embedded on my site was periodically opening pop-ups on my users without my consent. The agency's team assured me this shouldn't be happening, but claimed they couldn't re-create the issue. In truth, they just sell too many third-party ads to verify all of them.</p>
+
+<!-- more -->
+
+
+<p>Since these ads are breaking their agreement, I felt it was in my right to block them for my users. I decided to create a filter in my pages to block embedded scripts from opening unwanted windows. I couldn't find anything good about this on the internets, so I thought I'd share the solution I came up with.</p>
+
+<p>My first stab at the problem was to override the <code>window.open</code> function (which the offending script would be calling). I made it silently do nothing when called, by redefining it as a stub:</p>
+
+<script src="https://gist.github.com/1440000.js?file=popup_blocker.js.coffee"></script>
+
+
+<p>These few characters did the trick. Any code trying to open a pop-up fires the new <code>window.open</code> and happily continues on its way, unaware that no window was actually open.</p>
+
+<p>I was happy with this solution until, one day, I tried including <a href="http://www.addthis.com">addthis</a> on the site. The addthis widget opens a pop-up for many of its providers, and my hack, of course, dutifully blocks it every time! Alas, it seems a site sometimes needs to be able to open pop-ups for the powers of good...</p>
+
+<p>We need to be able to filter requested pop-ups: allowing the ones we trust, and blocking the rest. So, I created a whitelist filter on <code>window.open</code> by first saving an aliased copy, and then redefining it to a new method that conditionally calls the copy.</p>
+
+<script src="https://gist.github.com/1440000.js?file=popup_filter.js.coffee"></script>
+
+
+<p>Now, when <code>window.open('http://www.addthis.com/...', ...)</code> gets called, the regular expression matches and the aliased method gets called just as the addthis widget expects. However, when <code>window.open('http://nefarious-ad-site/...', ...)</code> gets called, the request is nicely eaten up.</p>
+
+<p>Cool! We can now manually filter pop-ups from opening on our site based on the requested url.</p>
+
+<p><strong>Footnotes</strong></p>
+
+<ul>
+<li><p>These code samples are coffeescript, of course, not javascript. I'm sure you can use your creativity to compile them in your head if you need to.</p></li>
+<li><p>Both these techniques were tested and work in IE8+, Firefox 3.6+, Chrome, and Safari. Other browsers, no idea.</p></li>
+<li><p>This technique will not work out of the box to filter pop-ups opened from scripts loaded within iframes. You may be able to modify this to handle that case.</p></li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[I was framed!]]></title>
+    <link href="http://blog.mitchcrowe.com/blog/2011/11/06/i-was-framed/"/>
+    <updated>2011-11-06T11:56:00-08:00</updated>
+    <id>http://blog.mitchcrowe.com/blog/2011/11/06/i-was-framed</id>
+    <content type="html"><![CDATA[<p>Patrolling the SERPs for a website I was working on one day, I came across something odd: An exact duplicate of my site at a different domain, startlingly high in the rankings. Here is its source:</p>
+
+<script src="https://gist.github.com/1439471.js?file=iframe_wrapper.html"></script>
+
+
+
+
+<!-- more -->
+
+
+<p>OK, it's my site in an frame, fine. The comment, though, left me biting my nails. <em>Who are You</em>&mdash;capital <em>y</em>, no question-mark. Is it just me, or does that sound menacing? Was this meant for me? A way of getting my attention, the scraper knowing I would read the source of the site that hot-linked me? I was perturbed at having no clue what someone's motivation was for this. There was no way to profit that I could tell: users were still on <em>my</em> site, just with a different domain. And, the hot-linking site used a real, 8-letter domain; too expensive to be a random attack. This was deliberate.</p>
+
+<p>My first line of attack, of course, was to try to contact the offender and ask&mdash;kindly&mdash;that they stop ripping my site off. No luck. The domain was registered privately, and the previous owner couldn't help track down the buyer.</p>
+
+<p>I quickly learned first-hand that this is an effective way to hurt the google rankings of a site, by pushing duplicate content up at a different domain. I can only assume that this was a trick played by one of my competitors to stop my site from getting traction, together with a menacing message to make me feel welcome. I'll be honest, I was/am definitely a little spooked. There are plenty of shady characters in my industry, and new competition is never greeted with open arms. Was I going to wake up to a couple of thugs banging my door down? OK, maybe I've watched too many thrillers, but you never know!</p>
+
+<p>Once I got over being cheesed and worried, beating this attack was pretty easy. Adding a canonical url helps google and others learn (slowly) that yours is the real site, and this fixed our rankings. You can do this in Rails with Haml by adding:</p>
+
+<script src="https://gist.github.com/1439471.js?file=application.html.haml%20"></script>
+
+
+<p>to your <code>application.html.haml</code>.</p>
+
+<p>I also added a frame-busting script which redirects the user to my site if they are viewing it in a frame or an iframe:</p>
+
+<script src="https://gist.github.com/1439471.js?file=frame_buster.js.coffee"></script>
+
+
+<p>This doesn't help with spiders or indexing as it relies on Javascript, but it does make sure that most users don't get trapped on the false domain. I got this idea from Jeff Atwood's <a href="http://www.codinghorror.com/blog/2009/06/we-done-been-framed.html">article on frame busting</a>. As Jeff points out, the wrapping page has the last say on Javascript, so it can always beat any tricks like this, but you can at least make it frustrating for them to try! (Note that this technique will interfere with some tools you might use which show your site in an iframe, such as google analytics' in-page analytics. You could add a whitelist feature to this, but I didn't need to.)</p>
+
+<p>No bats to my knees so far. Knock on wood...</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Javascript templates to the rescue]]></title>
+    <link href="http://blog.mitchcrowe.com/blog/2011/09/14/javascript-templates-to-the-rescue/"/>
+    <updated>2011-09-14T18:05:00-07:00</updated>
+    <id>http://blog.mitchcrowe.com/blog/2011/09/14/javascript-templates-to-the-rescue</id>
+    <content type="html"><![CDATA[<p>I'm a huge fan of ajax requests which simply return json, letting the client decide what it wants to do with the data. Formatting that data into html client-side, however, has always felt ugly as sin to me. So, we revert to rendering the html on the server and sending that html as an ajax response. This model is fine for simple pages, especially when all we want to do is display data asynchronously. Once we want to interact with this new data, do calculations on it, manipulate it further, things start to get ugly. In the end, I strongly believe that when the client requests data via ajax, it should get data, and not display logic, back.</p>
+
+<!-- more -->
+
+
+<p>Javascript templates make rendering html client-side a viable option. Actually, they can make it as nice as rendering with something like rails partials.</p>
+
+<p>Don't believe me? Let's check out a simple example, and compare solving it with simple javascript, then with jquery helpers, compared with a few js templates.</p>
+
+<p>Say I have a list of todo actions (which may have been returned via json from an ajax request)</p>
+
+<script src="https://gist.github.com/1031660.js?file=jst_vartodos.js"></script>
+
+
+<p>and a container</p>
+
+<script src="https://gist.github.com/1031660.js?file=ulcontainer.html"></script>
+
+
+<p>I want to render checkboxes and labels for these todos in the container, like this:</p>
+
+<script src="https://gist.github.com/1031660.js?file=end.html"></script>
+
+
+<p>Let's see how this looks.</p>
+
+<h4>plain javascript</h4>
+
+<script src="https://gist.github.com/1031660.js?file=plainjs.html"></script>
+
+
+<p>Pretty ugly. It's impossible to see the actual html structure at a glance. Of course it might look cleaner with document.write's, but that's an incredibly inflexible solution not to mention the fact that constructing a long string to display html is still gross.</p>
+
+<h4>jQuery</h4>
+
+<script src="https://gist.github.com/1031660.js?file=jquery.html"></script>
+
+
+<p>Better. Cleaner. Easier to write. Still hard to see the actual html structure.</p>
+
+<h4><a href="http://handlebars.strobeapp.com/">handlebars.js</a></h4>
+
+<script src="https://gist.github.com/1031660.js?file=handlebars.html"></script>
+
+
+<p>Nice right? A good separation of logic and display. Easy to see the structure of the html at a glance. (Note that I replaced script with scrip-t just to trick the gist syntax highlighter into recognizing html here. You don't really use a scrip-t tag!)</p>
+
+<h4><a href="http://icanhazjs.com/">icanhaz.js</a></h4>
+
+<script src="https://gist.github.com/1031660.js?file=icanhaz.html"></script>
+
+
+<p>Pretty good too. icanhaz builds in the idea of loading html from a script tag, so you don't need the boilerplate code to get it's html using jquery and compile a template. I actually prefer the flexibility of handlebars' method more, though.</p>
+
+<h4><a href="http://api.jquery.com/jquery.tmpl/">jquery tmpl plugin</a></h4>
+
+<script src="https://gist.github.com/1031660.js?file=tmpl.html"></script>
+
+
+<p>Pretty similar to handlebars. I do like that as a jquery plugin, we get no scope pollution.</p>
+
+<p>You should also have a look at <a href="http://blog.couchbase.com/mustache-js">moustache.js</a>, which handlebars.js is built upon, and the built in templates in <a href="http://documentcloud.github.com/underscore/">underscore.js</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>

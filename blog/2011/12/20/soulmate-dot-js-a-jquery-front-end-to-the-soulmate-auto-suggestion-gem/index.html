@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Soulmate.js—A jQuery front-end to the soulmate auto-suggestion gem - Mitch Crowe</title>
+  <meta name="author" content="Mitch Crowe">
+
+  
+  <meta name="description" content="Soulmate is an excellent auto-suggestion gem built for speed on sinatra and redis. I recently switched a project&#8217;s auto-suggestion engine to it &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.mitchcrowe.com/blog/2011/12/20/soulmate-dot-js-a-jquery-front-end-to-the-soulmate-auto-suggestion-gem">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="http://feeds.feedburner.com/mitchcrowe" rel="alternate" title="Mitch Crowe" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link <link href='http://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-23952700-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Mitch Crowe</a></h1>
+  
+    <h2>On Ruby, Rails, Javascript, and all that good stuff.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/mitchcrowe" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.mitchcrowe.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Soulmate.js—A jQuery Front-end to the Soulmate Auto-suggestion Gem</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-20T12:51:00-08:00" pubdate data-updated="true">Dec 20<span>th</span>, 2011</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><a href="https://github.com/seatgeek/soulmate">Soulmate</a> is an excellent auto-suggestion gem built for speed on sinatra and redis. I recently switched a project&#8217;s auto-suggestion engine to it from sphinx, and saw 200ms average response times drop to 10ms. Aside from speed, another huge boon was being able to completely separate the auto-suggestion engine from the main app. This allows it to get overwhelmed with a huge number of requests without significantly affecting the user&#8217;s experience. (Decoupling is good!).</p>
+
+<!-- more -->
+
+
+<p>Soulmate provides a very nice http interface and leaves the front-end design up to the developer. I wrote <a href="https://github.com/mcrowe/soulmate.js">soulmate.js</a>, a jQuery front-end to soulmate. Together, they provide lightning-fast plug-n-play auto-suggestion. Soulmate.js boasts the following features:</p>
+
+<ul>
+<li><strong>Well tested:</strong> Ridiculous spec coverage using Jasmine.</li>
+<li><strong>Clean markup:</strong> Renders a clean and semantic markup structure that is easy to style.</li>
+<li><strong>Speed:</strong> Minimizes requests by maintaining a list of queries with no suggestions. No additional requests are made when a user keeps typing on an empty query.</li>
+<li><strong>Cross-domain compatible:</strong> Uses jsonp to accommodate backends on separate domain (which is a good practice since it allows the auto-suggest system to get overwhelmed without affecting the main site).</li>
+<li><strong>Customizable behaviour:</strong> Customized rendering of suggestions through a callback that provides all stored data for that suggestion. Customized suggestion selection behaviour through a callback.</li>
+<li><strong>Adaptable:</strong> A modular, object-oriented design, that is meant to be very easy to adapt and modify.</li>
+</ul>
+
+
+<p>For more information, check out the README and specs on <a href="https://github.com/mcrowe/soulmate.js">github</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Mitch Crowe</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-20T12:51:00-08:00" pubdate data-updated="true">Dec 20<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/coffeescript/'>coffeescript</a>, <a class='category' href='/blog/categories/jquery/'>jQuery</a>, <a class='category' href='/blog/categories/javascript/'>javascript</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.mitchcrowe.com/blog/2011/12/20/soulmate-dot-js-a-jquery-front-end-to-the-soulmate-auto-suggestion-gem/" data-via="" data-counturl="http://blog.mitchcrowe.com/blog/2011/12/20/soulmate-dot-js-a-jquery-front-end-to-the-soulmate-auto-suggestion-gem/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/12/13/easy-rails-debugging-in-ie-with-a-mac-and-virtualbox/" title="Previous Post: Easy Rails debugging in IE with a Mac and VirtualBox">&laquo; Easy Rails debugging in IE with a Mac and VirtualBox</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/04/14/10-most-underused-activerecord-relation-methods/" title="Next Post: The 10 Most Underused ActiveRecord::Relation Methods">The 10 Most Underused ActiveRecord::Relation Methods &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p>
+    I am Mitch Crowe, a Ruby, Rails, Javascript, etc., developer and all-around web nerd based out of Vancouver, Canada. I work for <a href="http://www.unbounce.com">Unbounce.com</a> and develop awesome web applications as a freelancer.
+  </p>
+  <p>
+    Shoot me an email at <br/><em>[last].[first]@gmail.com</em>.    
+  </p>
+  <p>
+    Check out my CV on <a href="http://www.linkedin.com/pub/mitch-crowe/27/999/a60">LinkedIn</a>.
+  </p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/04/14/10-most-underused-activerecord-relation-methods/">The 10 Most Underused ActiveRecord::Relation Methods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/12/20/soulmate-dot-js-a-jquery-front-end-to-the-soulmate-auto-suggestion-gem/">Soulmate.js—A jQuery front-end to the soulmate auto-suggestion gem</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/12/13/easy-rails-debugging-in-ie-with-a-mac-and-virtualbox/">Easy Rails debugging in IE with a Mac and VirtualBox</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/mcrowe">@mcrowe</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'mcrowe',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Mitch Crowe -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'mitchcrowe';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.mitchcrowe.com/blog/2011/12/20/soulmate-dot-js-a-jquery-front-end-to-the-soulmate-auto-suggestion-gem/';
+        var disqus_url = 'http://blog.mitchcrowe.com/blog/2011/12/20/soulmate-dot-js-a-jquery-front-end-to-the-soulmate-auto-suggestion-gem/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

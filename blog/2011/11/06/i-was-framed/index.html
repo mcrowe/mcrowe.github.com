@@ -1,0 +1,330 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>I was framed! - Mitch Crowe</title>
+  <meta name="author" content="Mitch Crowe">
+
+  
+  <meta name="description" content="Patrolling the SERPs for a website I was working on one day, I came across something odd: An exact duplicate of my site at a different domain, &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.mitchcrowe.com/blog/2011/11/06/i-was-framed">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="http://feeds.feedburner.com/mitchcrowe" rel="alternate" title="Mitch Crowe" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link <link href='http://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-23952700-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Mitch Crowe</a></h1>
+  
+    <h2>On Ruby, Rails, Javascript, and all that good stuff.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/mitchcrowe" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.mitchcrowe.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">I Was Framed!</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-06T11:56:00-08:00" pubdate data-updated="true">Nov 6<span>th</span>, 2011</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Patrolling the SERPs for a website I was working on one day, I came across something odd: An exact duplicate of my site at a different domain, startlingly high in the rankings. Here is its source:</p>
+
+<script src="https://gist.github.com/1439471.js?file=iframe_wrapper.html"></script>
+
+
+
+
+<!-- more -->
+
+
+<p>OK, it&#8217;s my site in an frame, fine. The comment, though, left me biting my nails. <em>Who are You</em>&mdash;capital <em>y</em>, no question-mark. Is it just me, or does that sound menacing? Was this meant for me? A way of getting my attention, the scraper knowing I would read the source of the site that hot-linked me? I was perturbed at having no clue what someone&#8217;s motivation was for this. There was no way to profit that I could tell: users were still on <em>my</em> site, just with a different domain. And, the hot-linking site used a real, 8-letter domain; too expensive to be a random attack. This was deliberate.</p>
+
+<p>My first line of attack, of course, was to try to contact the offender and ask&mdash;kindly&mdash;that they stop ripping my site off. No luck. The domain was registered privately, and the previous owner couldn&#8217;t help track down the buyer.</p>
+
+<p>I quickly learned first-hand that this is an effective way to hurt the google rankings of a site, by pushing duplicate content up at a different domain. I can only assume that this was a trick played by one of my competitors to stop my site from getting traction, together with a menacing message to make me feel welcome. I&#8217;ll be honest, I was/am definitely a little spooked. There are plenty of shady characters in my industry, and new competition is never greeted with open arms. Was I going to wake up to a couple of thugs banging my door down? OK, maybe I&#8217;ve watched too many thrillers, but you never know!</p>
+
+<p>Once I got over being cheesed and worried, beating this attack was pretty easy. Adding a canonical url helps google and others learn (slowly) that yours is the real site, and this fixed our rankings. You can do this in Rails with Haml by adding:</p>
+
+<script src="https://gist.github.com/1439471.js?file=application.html.haml%20"></script>
+
+
+<p>to your <code>application.html.haml</code>.</p>
+
+<p>I also added a frame-busting script which redirects the user to my site if they are viewing it in a frame or an iframe:</p>
+
+<script src="https://gist.github.com/1439471.js?file=frame_buster.js.coffee"></script>
+
+
+<p>This doesn&#8217;t help with spiders or indexing as it relies on Javascript, but it does make sure that most users don&#8217;t get trapped on the false domain. I got this idea from Jeff Atwood&#8217;s <a href="http://www.codinghorror.com/blog/2009/06/we-done-been-framed.html">article on frame busting</a>. As Jeff points out, the wrapping page has the last say on Javascript, so it can always beat any tricks like this, but you can at least make it frustrating for them to try! (Note that this technique will interfere with some tools you might use which show your site in an iframe, such as google analytics&#8217; in-page analytics. You could add a whitelist feature to this, but I didn&#8217;t need to.)</p>
+
+<p>No bats to my knees so far. Knock on wood&#8230;</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Mitch Crowe</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-06T11:56:00-08:00" pubdate data-updated="true">Nov 6<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javascript/'>javascript</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.mitchcrowe.com/blog/2011/11/06/i-was-framed/" data-via="" data-counturl="http://blog.mitchcrowe.com/blog/2011/11/06/i-was-framed/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/09/14/javascript-templates-to-the-rescue/" title="Previous Post: Javascript templates to the rescue">&laquo; Javascript templates to the rescue</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/11/07/filtering-pop-ups-from-embedded-scripts/" title="Next Post: Filtering Pop-ups From Embedded Scripts">Filtering Pop-ups From Embedded Scripts &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p>
+    I am Mitch Crowe, a Ruby, Rails, Javascript, etc., developer and all-around web nerd based out of Vancouver, Canada. I work for <a href="http://www.unbounce.com">Unbounce.com</a> and develop awesome web applications as a freelancer.
+  </p>
+  <p>
+    Shoot me an email at <br/><em>[last].[first]@gmail.com</em>.    
+  </p>
+  <p>
+    Check out my CV on <a href="http://www.linkedin.com/pub/mitch-crowe/27/999/a60">LinkedIn</a>.
+  </p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/04/14/10-most-underused-activerecord-relation-methods/">The 10 Most Underused ActiveRecord::Relation Methods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/12/20/soulmate-dot-js-a-jquery-front-end-to-the-soulmate-auto-suggestion-gem/">Soulmate.js—A jQuery front-end to the soulmate auto-suggestion gem</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/12/13/easy-rails-debugging-in-ie-with-a-mac-and-virtualbox/">Easy Rails debugging in IE with a Mac and VirtualBox</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/mcrowe">@mcrowe</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'mcrowe',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Mitch Crowe -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'mitchcrowe';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.mitchcrowe.com/blog/2011/11/06/i-was-framed/';
+        var disqus_url = 'http://blog.mitchcrowe.com/blog/2011/11/06/i-was-framed/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

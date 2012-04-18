@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: IE | Mitch Crowe]]></title>
+  <link href="http://blog.mitchcrowe.com/blog/categories/ie/atom.xml" rel="self"/>
+  <link href="http://blog.mitchcrowe.com/"/>
+  <updated>2012-04-17T12:32:25-07:00</updated>
+  <id>http://blog.mitchcrowe.com/</id>
+  <author>
+    <name><![CDATA[Mitch Crowe]]></name>
+    <email><![CDATA[crowe.mitch@gmail.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Easy Rails debugging in IE with a Mac and VirtualBox]]></title>
+    <link href="http://blog.mitchcrowe.com/blog/2011/12/13/easy-rails-debugging-in-ie-with-a-mac-and-virtualbox/"/>
+    <updated>2011-12-13T11:37:00-08:00</updated>
+    <id>http://blog.mitchcrowe.com/blog/2011/12/13/easy-rails-debugging-in-ie-with-a-mac-and-virtualbox</id>
+    <content type="html"><![CDATA[<p>Internet Explorer is still more than 60% of my traffic, and I need to do a lot of feature testing on it. A lot of folks push up to a staging server then point a virtual machine to that server. This is too slow for me. Especially when I'm hunting down and fixing particularly pernicious css bugs, there is a lot of tweaking involved, and re-deploying for each test just doesn't cut it.</p>
+
+<!-- more -->
+
+
+<p>Instead, I setup VirtualBox to connect to my development server so I don't need to re-deploy to see changes in IE. It makes debugging in IE almost as easy as in other browsers!</p>
+
+<p>Assuming you have, or can, setup VirtualBox with XP or Windows 7 (if not there are a thousand tutorials on google), the rest takes a couple of seconds. VirtualBox's default setting will allow it to connect to your Mac's localhost through <code>http://10.0.2.2</code>. Forwarding ports is messier, so instead we can run rails on port 80. This requires running your server as a super user. Assuming you're using rvm, run:</p>
+
+<pre><code>rvmsudo rails server -p 80
+</code></pre>
+
+<p>and verify you can hit the server at <code>http://localhost</code> on your Mac, and <code>http://10.0.2.2</code> in VirtualBox. You're good to go!</p>
+
+<p>While you're at it, I'd recommend installing <a href="http://utilu.com/IECollection/">IE Collection</a>, so that you can easily test on all versions of IE on the same box.</p>
+]]></content>
+  </entry>
+  
+</feed>

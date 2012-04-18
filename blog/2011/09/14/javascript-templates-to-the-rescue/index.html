@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Javascript templates to the rescue - Mitch Crowe</title>
+  <meta name="author" content="Mitch Crowe">
+
+  
+  <meta name="description" content="I&#8217;m a huge fan of ajax requests which simply return json, letting the client decide what it wants to do with the data. Formatting that data &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.mitchcrowe.com/blog/2011/09/14/javascript-templates-to-the-rescue">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="http://feeds.feedburner.com/mitchcrowe" rel="alternate" title="Mitch Crowe" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link <link href='http://fonts.googleapis.com/css?family=Arvo' rel='stylesheet' type='text/css'>
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-23952700-4']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Mitch Crowe</a></h1>
+  
+    <h2>On Ruby, Rails, Javascript, and all that good stuff.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="http://feeds.feedburner.com/mitchcrowe" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:blog.mitchcrowe.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Javascript Templates to the Rescue</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-14T18:05:00-07:00" pubdate data-updated="true">Sep 14<span>th</span>, 2011</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I&#8217;m a huge fan of ajax requests which simply return json, letting the client decide what it wants to do with the data. Formatting that data into html client-side, however, has always felt ugly as sin to me. So, we revert to rendering the html on the server and sending that html as an ajax response. This model is fine for simple pages, especially when all we want to do is display data asynchronously. Once we want to interact with this new data, do calculations on it, manipulate it further, things start to get ugly. In the end, I strongly believe that when the client requests data via ajax, it should get data, and not display logic, back.</p>
+
+<!-- more -->
+
+
+<p>Javascript templates make rendering html client-side a viable option. Actually, they can make it as nice as rendering with something like rails partials.</p>
+
+<p>Don&#8217;t believe me? Let&#8217;s check out a simple example, and compare solving it with simple javascript, then with jquery helpers, compared with a few js templates.</p>
+
+<p>Say I have a list of todo actions (which may have been returned via json from an ajax request)</p>
+
+<script src="https://gist.github.com/1031660.js?file=jst_vartodos.js"></script>
+
+
+<p>and a container</p>
+
+<script src="https://gist.github.com/1031660.js?file=ulcontainer.html"></script>
+
+
+<p>I want to render checkboxes and labels for these todos in the container, like this:</p>
+
+<script src="https://gist.github.com/1031660.js?file=end.html"></script>
+
+
+<p>Let&#8217;s see how this looks.</p>
+
+<h4>plain javascript</h4>
+
+<script src="https://gist.github.com/1031660.js?file=plainjs.html"></script>
+
+
+<p>Pretty ugly. It&#8217;s impossible to see the actual html structure at a glance. Of course it might look cleaner with document.write&#8217;s, but that&#8217;s an incredibly inflexible solution not to mention the fact that constructing a long string to display html is still gross.</p>
+
+<h4>jQuery</h4>
+
+<script src="https://gist.github.com/1031660.js?file=jquery.html"></script>
+
+
+<p>Better. Cleaner. Easier to write. Still hard to see the actual html structure.</p>
+
+<h4><a href="http://handlebars.strobeapp.com/">handlebars.js</a></h4>
+
+<script src="https://gist.github.com/1031660.js?file=handlebars.html"></script>
+
+
+<p>Nice right? A good separation of logic and display. Easy to see the structure of the html at a glance. (Note that I replaced script with scrip-t just to trick the gist syntax highlighter into recognizing html here. You don&#8217;t really use a scrip-t tag!)</p>
+
+<h4><a href="http://icanhazjs.com/">icanhaz.js</a></h4>
+
+<script src="https://gist.github.com/1031660.js?file=icanhaz.html"></script>
+
+
+<p>Pretty good too. icanhaz builds in the idea of loading html from a script tag, so you don&#8217;t need the boilerplate code to get it&#8217;s html using jquery and compile a template. I actually prefer the flexibility of handlebars&#8217; method more, though.</p>
+
+<h4><a href="http://api.jquery.com/jquery.tmpl/">jquery tmpl plugin</a></h4>
+
+<script src="https://gist.github.com/1031660.js?file=tmpl.html"></script>
+
+
+<p>Pretty similar to handlebars. I do like that as a jquery plugin, we get no scope pollution.</p>
+
+<p>You should also have a look at <a href="http://blog.couchbase.com/mustache-js">moustache.js</a>, which handlebars.js is built upon, and the built in templates in <a href="http://documentcloud.github.com/underscore/">underscore.js</a>.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Mitch Crowe</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-14T18:05:00-07:00" pubdate data-updated="true">Sep 14<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javascript/'>javascript</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://blog.mitchcrowe.com/blog/2011/09/14/javascript-templates-to-the-rescue/" data-via="" data-counturl="http://blog.mitchcrowe.com/blog/2011/09/14/javascript-templates-to-the-rescue/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/11/06/i-was-framed/" title="Next Post: I was framed!">I was framed! &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>About Me</h1>
+  <p>
+    I am Mitch Crowe, a Ruby, Rails, Javascript, etc., developer and all-around web nerd based out of Vancouver, Canada. I work for <a href="http://www.unbounce.com">Unbounce.com</a> and develop awesome web applications as a freelancer.
+  </p>
+  <p>
+    Shoot me an email at <br/><em>[last].[first]@gmail.com</em>.    
+  </p>
+  <p>
+    Check out my CV on <a href="http://www.linkedin.com/pub/mitch-crowe/27/999/a60">LinkedIn</a>.
+  </p>
+</section>
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/04/14/10-most-underused-activerecord-relation-methods/">The 10 Most Underused ActiveRecord::Relation Methods</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/12/20/soulmate-dot-js-a-jquery-front-end-to-the-soulmate-auto-suggestion-gem/">Soulmate.js—A jQuery front-end to the soulmate auto-suggestion gem</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/12/13/easy-rails-debugging-in-ie-with-a-mac-and-virtualbox/">Easy Rails debugging in IE with a Mac and VirtualBox</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/mcrowe">@mcrowe</a> on GitHub
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'mcrowe',
+            count: 3,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2012 - Mitch Crowe -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'mitchcrowe';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.mitchcrowe.com/blog/2011/09/14/javascript-templates-to-the-rescue/';
+        var disqus_url = 'http://blog.mitchcrowe.com/blog/2011/09/14/javascript-templates-to-the-rescue/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
