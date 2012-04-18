@@ -4,7 +4,7 @@
   <title><![CDATA[Mitch Crowe]]></title>
   <link href="http://blog.mitchcrowe.com/atom.xml" rel="self"/>
   <link href="http://blog.mitchcrowe.com/"/>
-  <updated>2012-04-18T08:36:01-07:00</updated>
+  <updated>2012-04-18T08:38:33-07:00</updated>
   <id>http://blog.mitchcrowe.com/</id>
   <author>
     <name><![CDATA[Mitch Crowe]]></name>
@@ -219,8 +219,12 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Account</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
-</span><span class='line'>  <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Returns all the accounts that have unread messages.</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">with_unread_messages</span>
 </span><span class='line'>    <span class="n">joins</span><span class="p">(</span><span class="ss">:messages</span><span class="p">)</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span> <span class="no">Message</span><span class="o">.</span><span class="n">unread</span> <span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
