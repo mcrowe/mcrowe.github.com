@@ -2,62 +2,62 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://blog.mitchcrowe.com/blog/2011/09/14/javascript-templates-to-the-rescue/</loc>
-        <lastmod>2012-04-06T10:43:14-07:00</lastmod>
+        <lastmod>2014-05-15T16:21:12-07:00</lastmod>
     </url>
     <url>
         <loc>http://blog.mitchcrowe.com/blog/2011/11/06/i-was-framed/</loc>
-        <lastmod>2012-04-06T10:47:04-07:00</lastmod>
+        <lastmod>2014-05-15T16:21:12-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.mitchcrowe.com/blog/2011/11/07/filtering-pop-ups-from-embedded-scripts/
         </loc>
-        <lastmod>2012-04-06T11:46:29-07:00</lastmod>
+        <lastmod>2014-05-15T16:21:12-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.mitchcrowe.com/blog/2011/11/07/paranoid-a-backup-script-for-when-the-world-slash-s-out-to-get-you/
         </loc>
-        <lastmod>2012-04-06T11:46:19-07:00</lastmod>
+        <lastmod>2014-05-15T16:21:12-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.mitchcrowe.com/blog/2011/12/12/rubynu-a-scaffold-generator-for-ruby-projects/
         </loc>
-        <lastmod>2012-04-06T11:46:08-07:00</lastmod>
+        <lastmod>2014-05-15T16:21:12-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.mitchcrowe.com/blog/2011/12/13/easy-rails-debugging-in-ie-with-a-mac-and-virtualbox/
         </loc>
-        <lastmod>2012-04-06T11:46:36-07:00</lastmod>
+        <lastmod>2014-05-15T16:21:12-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.mitchcrowe.com/blog/2011/12/20/soulmate-dot-js-a-jquery-front-end-to-the-soulmate-auto-suggestion-gem/
         </loc>
-        <lastmod>2012-04-06T11:46:04-07:00</lastmod>
+        <lastmod>2014-05-15T16:21:12-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://blog.mitchcrowe.com/blog/2012/04/14/10-most-underused-activerecord-relation-methods/
         </loc>
-        <lastmod>2012-04-18T08:38:17-07:00</lastmod>
+        <lastmod>2014-05-15T16:21:12-07:00</lastmod>
     </url>
     <url>
         <loc>http://blog.mitchcrowe.com/blog/2012/04/16/roleable-roles-for-ruby-on-rails/</loc>
-        <lastmod>2012-04-16T20:57:58-07:00</lastmod>
+        <lastmod>2014-05-15T16:21:12-07:00</lastmod>
     </url>
     <url>
         <loc>http://blog.mitchcrowe.com/about/</loc>
-        <lastmod>2012-04-06T11:05:29-07:00</lastmod>
+        <lastmod>2014-05-15T16:21:12-07:00</lastmod>
     </url>
     <url>
         <loc>http://blog.mitchcrowe.com/blog/archives/</loc>
-        <lastmod>2012-04-18T08:38:17-07:00</lastmod>
+        <lastmod>2014-05-15T16:21:12-07:00</lastmod>
     </url>
     <url>
         <loc>http://blog.mitchcrowe.com/</loc>
-        <lastmod>2012-04-18T08:38:17-07:00</lastmod>
+        <lastmod>2014-05-15T16:21:12-07:00</lastmod>
     </url>
 </urlset>
