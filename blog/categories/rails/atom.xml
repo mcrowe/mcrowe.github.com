@@ -4,7 +4,7 @@
   <title><![CDATA[Category: rails | Mitch Crowe]]></title>
   <link href="http://blog.mitchcrowe.com/blog/categories/rails/atom.xml" rel="self"/>
   <link href="http://blog.mitchcrowe.com/"/>
-  <updated>2014-07-28T17:07:56-07:00</updated>
+  <updated>2014-07-28T17:13:48-07:00</updated>
   <id>http://blog.mitchcrowe.com/</id>
   <author>
     <name><![CDATA[Mitch Crowe]]></name>
@@ -31,7 +31,7 @@
 
 <p>First, let's look at the common patterns, then I'll present the <em>form extension</em> pattern. I will use Rails for my examples, but the discussion should translate easily to any MVC-based web framework.</p>
 
-<h2>Fat Controller</h2>
+<h1>1. Fat controllers</h1>
 
 <p>This is certainly the simplest solution. The controller is meant to be the glue of your application, so let it "glue" together your user and account creation. In Rails this looks something like:</p>
 
@@ -70,7 +70,7 @@ end
 </ul>
 
 
-<h2>Callbacks</h2>
+<h1>2. Callbacks</h1>
 
 <p>This is the Rails way. You want an account created when you create a user? Throw a <code>before_create</code> callback on that sucker and you're done.</p>
 
@@ -116,7 +116,7 @@ end
 </ul>
 
 
-<h2>Form objects</h2>
+<h1>3. Form objects</h1>
 
 <p>All the cool kids are doing it this way. You have a registration form, so why not make a "registration" a first-class object in your system and let that object handle all the registration-related business logic?</p>
 
@@ -163,11 +163,11 @@ end
 <h3>Cons:</h3>
 
 <ul>
-<li>Complexity. It's an extra layer that is overkill for many cases. You just duplicated your validation logic. Did you test it? Are you delegating the attributes properly? Better test all of them.</li>
+<li>Complexity. It's an extra layer that could be overkill for you. You just duplicated your validation logic. Did you test it? Are you delegating the attributes properly? Better test all of them.</li>
 </ul>
 
 
-<h2>Form extensions</h2>
+<h1>4. Form extensions</h1>
 
 <p>Let me preface by saying that I don't think any of the above patterns are wrong. Each has its uses, and none is perfect. <em>Form extensions</em>, I think, strike a nice balance between the simplicity of <em>callbacks</em> and the re-usability of <em>form objects</em>.</p>
 
