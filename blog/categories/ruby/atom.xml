@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ruby | Mitch Crowe]]></title>
   <link href="http://blog.mitchcrowe.com/blog/categories/ruby/atom.xml" rel="self"/>
   <link href="http://blog.mitchcrowe.com/"/>
-  <updated>2014-05-15T16:34:05-07:00</updated>
+  <updated>2014-07-28T17:07:56-07:00</updated>
   <id>http://blog.mitchcrowe.com/</id>
   <author>
     <name><![CDATA[Mitch Crowe]]></name>
@@ -12,6 +12,208 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Form Extensions: A Form Object's skinny little brother]]></title>
+    <link href="http://blog.mitchcrowe.com/blog/2014/07/28/form-extensions-a-form-objects-skinny-little-brother/"/>
+    <updated>2014-07-28T16:32:00-07:00</updated>
+    <id>http://blog.mitchcrowe.com/blog/2014/07/28/form-extensions-a-form-objects-skinny-little-brother</id>
+    <content type="html"><![CDATA[<p>You have a form who's fields don't match up to a model. What do you do?</p>
+
+<p>Ask any web developer, and they will confidently defend one of three patterns: <em>fat controllers</em>, <em>callbacks</em>, or <em>form objects</em>. It's an on-going, heated, debate.</p>
+
+<p>I would like to propose a fourth pattern, <em>form extensions</em>, which I will argue is often the most pragmatic approach. It is probably not a new idea, but it certainly doesn't get the lip-service it should. It deserves a name, and a first-class position in a web-developer's toolbelt.</p>
+
+<!-- more -->
+
+
+<p>Let's keep this discussion grounded by considering an example problem. Suppose we have a registration form that includes a user's emails address, password, and their account name. When the form is submitted, we want to create a user record, as well as an account for that user. This is a very common problem, and one that I have seen solved in many different ways.</p>
+
+<p>First, let's look at the common patterns, then I'll present the <em>form extension</em> pattern. I will use Rails for my examples, but the discussion should translate easily to any MVC-based web framework.</p>
+
+<h2>Fat Controller</h2>
+
+<p>This is certainly the simplest solution. The controller is meant to be the glue of your application, so let it "glue" together your user and account creation. In Rails this looks something like:</p>
+
+<p>```ruby
+class UserController &lt; ApplicationController</p>
+
+<p>  def create</p>
+
+<pre><code>user = User.build(params[:user])
+account = Account.build(params[:account])
+
+if user.save &amp;&amp; account.save
+  # handle success
+else
+  # handle failure
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>end
+```</p>
+
+<h3>Pros:</h3>
+
+<ul>
+<li>It's obvious.</li>
+</ul>
+
+
+<h3>Cons:</h3>
+
+<ul>
+<li>It's a pain to re-use (read: ugly tests!).</li>
+<li>It doesn't play nice with other patterns (e.g. you can't use Devise anymore).</li>
+</ul>
+
+
+<h2>Callbacks</h2>
+
+<p>This is the Rails way. You want an account created when you create a user? Throw a <code>before_create</code> callback on that sucker and you're done.</p>
+
+<p>```ruby
+class User &lt; ActiveRecord::Base</p>
+
+<p>  # ...</p>
+
+<p>  belongs_to :account</p>
+
+<p>  # Create a virtual address for the extra form field.
+  attr_accessor :account_name</p>
+
+<p>  # Validate account attributes when a user is created
+  # (Or, you can transfer any errors over manually)
+  validates_presence_of :account_name, on: :create</p>
+
+<p>  before_create :create_initial_account</p>
+
+<p>  private</p>
+
+<pre><code>def create_initial_account
+  create_account(name: @account_name)
+end
+</code></pre>
+
+<p>end
+```</p>
+
+<h3>Pros:</h3>
+
+<ul>
+<li>It's easy to write.</li>
+<li>It's simple.</li>
+<li>It's very re-usable.</li>
+</ul>
+
+
+<h3>Cons:</h3>
+
+<ul>
+<li>Coupling. Your user object is now in charge of three concerns: registration, user functionality, and account functionality. This makes for slow, over-complicated tests, and hard-to-reason-about code.</li>
+</ul>
+
+
+<h2>Form objects</h2>
+
+<p>All the cool kids are doing it this way. You have a registration form, so why not make a "registration" a first-class object in your system and let that object handle all the registration-related business logic?</p>
+
+<p>```ruby
+class Registration
+  include ActiveModel::Model</p>
+
+<p>  attr_accessor(</p>
+
+<pre><code>:account_name,
+:email,
+:password
+</code></pre>
+
+<p>  )</p>
+
+<p>  validates :account_name, presence: true
+  validates :email, presence: true, email: true
+  # ...</p>
+
+<p>  def submit</p>
+
+<pre><code>if valid?
+  User.create!(email: @email, password: @password)
+  User.create_account(name: @account_name)
+end
+</code></pre>
+
+<p>  end</p>
+
+<p>end
+```</p>
+
+<h3>Pros:</h3>
+
+<ul>
+<li>It follows the single-responsibility principal.</li>
+<li>It's re-usable.</li>
+<li>It's easy to test.</li>
+<li>It scales well when complexity is added in the future.</li>
+</ul>
+
+
+<h3>Cons:</h3>
+
+<ul>
+<li>Complexity. It's an extra layer that is overkill for many cases. You just duplicated your validation logic. Did you test it? Are you delegating the attributes properly? Better test all of them.</li>
+</ul>
+
+
+<h2>Form extensions</h2>
+
+<p>Let me preface by saying that I don't think any of the above patterns are wrong. Each has its uses, and none is perfect. <em>Form extensions</em>, I think, strike a nice balance between the simplicity of <em>callbacks</em> and the re-usability of <em>form objects</em>.</p>
+
+<p>The <em>form extensions</em> advocate argues that registration is <em>mostly</em> about creating a user. Sure, we'd like to create an account, and possibly notify some external services, etc. But that feels like an aside. The <em>callback</em> pattern looks tempting, but the coupling it imposes is a no-go. But what if we had a clean and transparent way to "opt-in" to the callback functionality only when it's needed, and not have to think about it when its not? That's what the <em>form extensions</em> pattern does. You create an extension of your primary model, giving it the extra functionality it needs for the given form. In this case, we would create a <code>RegistratingUser</code>, a <code>User</code> that knows about registration.</p>
+
+<p>```ruby
+class RegistratingUser &lt; User</p>
+
+<p>  # You still need this attribute for the form.
+  attr_accessor :account_name</p>
+
+<p>  # Only need to add account-specific validations
+  validates_presence_of :account_name</p>
+
+<p>  before_create :create_initial_account</p>
+
+<p>  private</p>
+
+<pre><code>def create_initial_account
+  create_account(name: @account_name)
+end
+</code></pre>
+
+<p>end
+```</p>
+
+<p>Now you can freely use your <code>User</code> model without worrying about any details of registration, and you can opt-in to the registration functionality by using a <code>RegistratingUser</code> model instead. The result is simpler than a form object, because your user already has most of the functionality you need. You don't need to manually delegate that behaviour. A <em>form extension</em> is almost as simple as a <em>callback</em>, and almost as scalable as a <em>form object</em>. I believe it strikes the perfect balance in many cases.</p>
+
+<h3>Pros:</h3>
+
+<ul>
+<li>It's simple.</li>
+<li>It's re-usable.</li>
+<li>It's easy to test.</li>
+<li>There is less to test than a form object, if we trust inheritance.</li>
+</ul>
+
+
+<h3>Cons:</h3>
+
+<ul>
+<li>It won't handle future complexity as well as <em>form objects</em>. It uses inheritance instead of composition, so you are leaking user-related concerns into your registration concern. If the registration logic will be complex, I would recommend a form object instead.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The 10 Most Underused ActiveRecord::Relation Methods]]></title>

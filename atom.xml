@@ -4,7 +4,7 @@
   <title><![CDATA[Mitch Crowe]]></title>
   <link href="http://blog.mitchcrowe.com/atom.xml" rel="self"/>
   <link href="http://blog.mitchcrowe.com/"/>
-  <updated>2014-05-15T16:34:05-07:00</updated>
+  <updated>2014-07-28T17:07:56-07:00</updated>
   <id>http://blog.mitchcrowe.com/</id>
   <author>
     <name><![CDATA[Mitch Crowe]]></name>
@@ -12,6 +12,271 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Form Extensions: A Form Object's skinny little brother]]></title>
+    <link href="http://blog.mitchcrowe.com/blog/2014/07/28/form-extensions-a-form-objects-skinny-little-brother/"/>
+    <updated>2014-07-28T16:32:00-07:00</updated>
+    <id>http://blog.mitchcrowe.com/blog/2014/07/28/form-extensions-a-form-objects-skinny-little-brother</id>
+    <content type="html"><![CDATA[<p>You have a form who&#8217;s fields don&#8217;t match up to a model. What do you do?</p>
+
+<p>Ask any web developer, and they will confidently defend one of three patterns: <em>fat controllers</em>, <em>callbacks</em>, or <em>form objects</em>. It&#8217;s an on-going, heated, debate.</p>
+
+<p>I would like to propose a fourth pattern, <em>form extensions</em>, which I will argue is often the most pragmatic approach. It is probably not a new idea, but it certainly doesn&#8217;t get the lip-service it should. It deserves a name, and a first-class position in a web-developer&#8217;s toolbelt.</p>
+
+<!-- more -->
+
+
+<p>Let&#8217;s keep this discussion grounded by considering an example problem. Suppose we have a registration form that includes a user&#8217;s emails address, password, and their account name. When the form is submitted, we want to create a user record, as well as an account for that user. This is a very common problem, and one that I have seen solved in many different ways.</p>
+
+<p>First, let&#8217;s look at the common patterns, then I&#8217;ll present the <em>form extension</em> pattern. I will use Rails for my examples, but the discussion should translate easily to any MVC-based web framework.</p>
+
+<h2>Fat Controller</h2>
+
+<p>This is certainly the simplest solution. The controller is meant to be the glue of your application, so let it &#8220;glue&#8221; together your user and account creation. In Rails this looks something like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UserController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>    <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:user</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">account</span> <span class="o">=</span> <span class="no">Account</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:account</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">save</span> <span class="o">&amp;&amp;</span> <span class="n">account</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>      <span class="c1"># handle success</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="c1"># handle failure</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Pros:</h3>
+
+<ul>
+<li>It&#8217;s obvious.</li>
+</ul>
+
+
+<h3>Cons:</h3>
+
+<ul>
+<li>It&#8217;s a pain to re-use (read: ugly tests!).</li>
+<li>It doesn&#8217;t play nice with other patterns (e.g. you can&#8217;t use Devise anymore).</li>
+</ul>
+
+
+<h2>Callbacks</h2>
+
+<p>This is the Rails way. You want an account created when you create a user? Throw a <code>before_create</code> callback on that sucker and you&#8217;re done.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:account</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Create a virtual address for the extra form field.</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:account_name</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Validate account attributes when a user is created</span>
+</span><span class='line'>  <span class="c1"># (Or, you can transfer any errors over manually)</span>
+</span><span class='line'>  <span class="n">validates_presence_of</span> <span class="ss">:account_name</span><span class="p">,</span> <span class="n">on</span><span class="p">:</span> <span class="ss">:create</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">before_create</span> <span class="ss">:create_initial_account</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">create_initial_account</span>
+</span><span class='line'>      <span class="n">create_account</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="vi">@account_name</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Pros:</h3>
+
+<ul>
+<li>It&#8217;s easy to write.</li>
+<li>It&#8217;s simple.</li>
+<li>It&#8217;s very re-usable.</li>
+</ul>
+
+
+<h3>Cons:</h3>
+
+<ul>
+<li>Coupling. Your user object is now in charge of three concerns: registration, user functionality, and account functionality. This makes for slow, over-complicated tests, and hard-to-reason-about code.</li>
+</ul>
+
+
+<h2>Form objects</h2>
+
+<p>All the cool kids are doing it this way. You have a registration form, so why not make a &#8220;registration&#8221; a first-class object in your system and let that object handle all the registration-related business logic?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Registration</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Model</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">attr_accessor</span><span class="p">(</span>
+</span><span class='line'>    <span class="ss">:account_name</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">:email</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">:password</span>
+</span><span class='line'>  <span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">validates</span> <span class="ss">:account_name</span><span class="p">,</span> <span class="n">presence</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="n">validates</span> <span class="ss">:email</span><span class="p">,</span> <span class="n">presence</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">submit</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">valid?</span>
+</span><span class='line'>      <span class="no">User</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span><span class="n">email</span><span class="p">:</span> <span class="vi">@email</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="vi">@password</span><span class="p">)</span>
+</span><span class='line'>      <span class="no">User</span><span class="o">.</span><span class="n">create_account</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="vi">@account_name</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>Pros:</h3>
+
+<ul>
+<li>It follows the single-responsibility principal.</li>
+<li>It&#8217;s re-usable.</li>
+<li>It&#8217;s easy to test.</li>
+<li>It scales well when complexity is added in the future.</li>
+</ul>
+
+
+<h3>Cons:</h3>
+
+<ul>
+<li>Complexity. It&#8217;s an extra layer that is overkill for many cases. You just duplicated your validation logic. Did you test it? Are you delegating the attributes properly? Better test all of them.</li>
+</ul>
+
+
+<h2>Form extensions</h2>
+
+<p>Let me preface by saying that I don&#8217;t think any of the above patterns are wrong. Each has its uses, and none is perfect. <em>Form extensions</em>, I think, strike a nice balance between the simplicity of <em>callbacks</em> and the re-usability of <em>form objects</em>.</p>
+
+<p>The <em>form extensions</em> advocate argues that registration is <em>mostly</em> about creating a user. Sure, we&#8217;d like to create an account, and possibly notify some external services, etc. But that feels like an aside. The <em>callback</em> pattern looks tempting, but the coupling it imposes is a no-go. But what if we had a clean and transparent way to &#8220;opt-in&#8221; to the callback functionality only when it&#8217;s needed, and not have to think about it when its not? That&#8217;s what the <em>form extensions</em> pattern does. You create an extension of your primary model, giving it the extra functionality it needs for the given form. In this case, we would create a <code>RegistratingUser</code>, a <code>User</code> that knows about registration.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">RegistratingUser</span> <span class="o">&lt;</span> <span class="no">User</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># You still need this attribute for the form.</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:account_name</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Only need to add account-specific validations</span>
+</span><span class='line'>  <span class="n">validates_presence_of</span> <span class="ss">:account_name</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">before_create</span> <span class="ss">:create_initial_account</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">create_initial_account</span>
+</span><span class='line'>      <span class="n">create_account</span><span class="p">(</span><span class="nb">name</span><span class="p">:</span> <span class="vi">@account_name</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you can freely use your <code>User</code> model without worrying about any details of registration, and you can opt-in to the registration functionality by using a <code>RegistratingUser</code> model instead. The result is simpler than a form object, because your user already has most of the functionality you need. You don&#8217;t need to manually delegate that behaviour. A <em>form extension</em> is almost as simple as a <em>callback</em>, and almost as scalable as a <em>form object</em>. I believe it strikes the perfect balance in many cases.</p>
+
+<h3>Pros:</h3>
+
+<ul>
+<li>It&#8217;s simple.</li>
+<li>It&#8217;s re-usable.</li>
+<li>It&#8217;s easy to test.</li>
+<li>There is less to test than a form object, if we trust inheritance.</li>
+</ul>
+
+
+<h3>Cons:</h3>
+
+<ul>
+<li>It won&#8217;t handle future complexity as well as <em>form objects</em>. It uses inheritance instead of composition, so you are leaking user-related concerns into your registration concern. If the registration logic will be complex, I would recommend a form object instead.</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Roleable roles for Ruby on Rails]]></title>
